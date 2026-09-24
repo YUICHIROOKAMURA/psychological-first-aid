@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サイコロジカル・ファーストエイド（PFA）実践リファレンス</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1B2A38;
+  --navy-soft:#2C3E50;
+  --teal:#1E6E66;
+  --teal-light:#E4EFED;
+  --amber:#B97D33;
+  --amber-light:#F7EEDF;
+  --cream:#F6F1E7;
+  --rust:#9C4A3C;
+  --rust-light:#F6E7E4;
+  --ink:#232B33;
+  --ink-mid:#4A5661;
+  --line:#DFD8CA;
+  --white:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Noto Sans JP',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  line-height:1.9;
+  font-size:16px;
+  -webkit-text-size-adjust:100%;
+}
+h1,h2,h3,.serif{font-family:'Noto Serif JP',serif;}
+
+/* ---------- progress + nav ---------- */
+#progress-track{position:fixed;top:0;left:0;width:100%;height:4px;background:rgba(27,42,56,.12);z-index:120;}
+#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--amber));transition:width .1s linear;}
+nav#topnav{
+  position:fixed;top:4px;left:0;width:100%;
+  background:rgba(27,42,56,.97);
+  z-index:110;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+nav#topnav .navinner{
+  max-width:1080px;margin:0 auto;
+  display:flex;align-items:center;gap:14px;
+  padding:8px 16px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+nav#topnav .navinner::-webkit-scrollbar{display:none;}
+nav#topnav .brand{
+  color:#fff;font-size:.78rem;font-weight:700;letter-spacing:.06em;
+  white-space:nowrap;padding-right:12px;border-right:1px solid rgba(255,255,255,.2);
+}
+nav#topnav button{
+  background:none;border:none;
+  color:rgba(255,255,255,.72);
+  font-family:inherit;font-size:.78rem;
+  white-space:nowrap;cursor:pointer;
+  padding:4px 2px;border-bottom:2px solid transparent;
+  transition:color .2s,border-color .2s;
+}
+nav#topnav button:hover,nav#topnav button.active{color:#fff;border-bottom-color:var(--amber);}
+
+/* ---------- layout ---------- */
+.wrap{max-width:820px;margin:0 auto;padding:0 20px;}
+section{padding:72px 0 8px;scroll-margin-top:64px;}
+.sec-num{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:.72rem;letter-spacing:.16em;font-weight:700;
+  color:var(--teal);text-transform:uppercase;margin-bottom:14px;
+}
+.sec-num .bar{width:26px;height:2px;background:var(--amber);display:block;}
+h2{font-size:1.6rem;line-height:1.5;color:var(--navy);margin-bottom:8px;letter-spacing:.01em;}
+h2 + .lede{color:var(--ink-mid);font-size:.95rem;margin-bottom:26px;}
+h3{font-size:1.08rem;color:var(--navy);margin:32px 0 12px;line-height:1.6;}
+p{margin-bottom:16px;}
+.small{font-size:.85rem;color:var(--ink-mid);line-height:1.85;}
+
+/* ---------- hero ---------- */
+header.hero{
+  background:var(--navy);
+  color:#fff;
+  padding:130px 0 78px;
+  position:relative;overflow:hidden;
+}
+header.hero::after{
+  content:"";position:absolute;right:-90px;top:-60px;
+  width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,rgba(30,110,102,.55),transparent 68%);
+}
+header.hero .wrap{position:relative;z-index:2;}
+header.hero .kicker{
+  font-size:.74rem;letter-spacing:.22em;color:var(--amber);
+  font-weight:700;margin-bottom:20px;
+}
+header.hero h1{
+  font-size:2.15rem;line-height:1.45;margin-bottom:8px;color:#fff;
+}
+header.hero .sub{
+  font-size:1.02rem;color:rgba(255,255,255,.82);margin-bottom:26px;font-weight:500;
+}
+header.hero .abstract{
+  font-size:.95rem;color:rgba(255,255,255,.88);line-height:2;
+  border-left:3px solid var(--amber);padding-left:18px;max-width:640px;
+}
+header.hero .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;}
+header.hero .tag{
+  font-size:.72rem;border:1px solid rgba(255,255,255,.32);
+  color:rgba(255,255,255,.85);border-radius:999px;padding:4px 12px;
+}
+
+/* ---------- cards ---------- */
+.card{
+  background:var(--white);border:1px solid var(--line);
+  border-radius:10px;padding:22px 24px;margin-bottom:16px;
+}
+.card h4{font-size:1rem;color:var(--navy);margin-bottom:8px;font-family:'Noto Serif JP',serif;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+@media(max-width:720px){.grid2,.grid3{grid-template-columns:1fr;}}
+
+/* scenario cards */
+.scenario{
+  background:var(--white);border:1px solid var(--line);border-left:4px solid var(--amber);
+  border-radius:8px;padding:18px 20px;margin-bottom:12px;
+}
+.scenario .who{font-size:.72rem;color:var(--amber);font-weight:700;letter-spacing:.08em;margin-bottom:6px;}
+.scenario p{margin:0;font-size:.92rem;}
+
+/* callouts */
+.callout{
+  border-radius:10px;padding:20px 22px;margin:22px 0;
+  border:1px solid var(--line);background:var(--white);
+}
+.callout.teal{background:var(--teal-light);border-color:#BFD8D4;}
+.callout.amber{background:var(--amber-light);border-color:#E7D3B2;}
+.callout.rust{background:var(--rust-light);border-color:#E2C1BA;}
+.callout .cthead{
+  display:flex;align-items:center;gap:9px;font-weight:700;
+  font-size:.92rem;margin-bottom:10px;color:var(--navy);
+}
+.callout.rust .cthead{color:var(--rust);}
+.callout.teal .cthead{color:var(--teal);}
+.callout.amber .cthead{color:var(--amber);}
+.callout p:last-child{margin-bottom:0;}
+.callout .small{color:var(--ink-mid);}
+
+/* badges */
+.badge{
+  display:inline-block;font-size:.68rem;font-weight:700;
+  padding:2px 9px;border-radius:4px;letter-spacing:.04em;
+  vertical-align:middle;margin-left:6px;white-space:nowrap;
+}
+.badge.a{background:var(--teal);color:#fff;}
+.badge.b{background:var(--amber);color:#fff;}
+.badge.c{background:var(--rust);color:#fff;}
+.badge.plain{background:#E6E0D3;color:var(--ink-mid);}
+
+/* ---------- accordion ---------- */
+.acc{border:1px solid var(--line);border-radius:10px;background:var(--white);margin-bottom:10px;overflow:hidden;}
+.acc-head{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 18px;cursor:pointer;background:var(--white);
+  transition:background .18s;
+}
+.acc-head:hover{background:#FBF8F2;}
+.acc-head .idx{
+  flex:0 0 30px;height:30px;border-radius:50%;
+  background:var(--navy);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.82rem;font-weight:700;margin-top:1px;
+}
+.acc-head .ttl{flex:1;font-weight:700;font-size:.96rem;color:var(--navy);line-height:1.6;}
+.acc-head .ttl span{display:block;font-weight:400;font-size:.8rem;color:var(--ink-mid);margin-top:2px;}
+.acc-head .chev{flex:0 0 16px;margin-top:8px;transition:transform .25s;color:var(--ink-mid);}
+.acc.open .acc-head .chev{transform:rotate(180deg);}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.acc-body-inner{padding:2px 18px 20px 62px;font-size:.92rem;}
+@media(max-width:600px){.acc-body-inner{padding-left:18px;}}
+.acc-body-inner .lbl{
+  font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--teal);
+  display:block;margin:14px 0 5px;
+}
+.acc-body-inner .lbl.k{color:var(--amber);}
+.acc-body-inner ul{margin:0 0 0 18px;}
+.acc-body-inner li{margin-bottom:6px;}
+.saywhat{
+  background:var(--cream);border-left:3px solid var(--teal);
+  padding:10px 14px;border-radius:0 6px 6px 0;margin:6px 0;
+  font-size:.9rem;
+}
+.saywhat.no{border-left-color:var(--rust);}
+
+/* ---------- flow (three principles) ---------- */
+.flowbox{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:22px 18px;margin:20px 0;}
+.flowstep{display:flex;gap:16px;align-items:flex-start;padding:14px 0;}
+.flowstep + .flowstep{border-top:1px dashed var(--line);}
+.flowstep .ico{
+  flex:0 0 46px;height:46px;border-radius:10px;
+  background:var(--teal-light);color:var(--teal);
+  display:flex;align-items:center;justify-content:center;
+}
+.flowstep .fbody h4{font-size:1rem;color:var(--navy);margin-bottom:4px;font-family:'Noto Serif JP',serif;}
+.flowstep .fbody .en{font-size:.72rem;letter-spacing:.12em;color:var(--amber);font-weight:700;}
+.flowstep .fbody p{font-size:.9rem;margin:6px 0 0;}
+.flowstep .fbody ul{margin:8px 0 0 18px;font-size:.88rem;}
+.flowstep .fbody li{margin-bottom:4px;}
+
+/* ---------- table ---------- */
+.tablewrap{overflow-x:auto;margin:20px 0;-webkit-overflow-scrolling:touch;}
+table{border-collapse:collapse;width:100%;min-width:520px;background:var(--white);font-size:.88rem;}
+th,td{border:1px solid var(--line);padding:11px 13px;text-align:left;vertical-align:top;}
+th{background:var(--navy);color:#fff;font-weight:700;font-size:.82rem;}
+td.yes{color:var(--teal);font-weight:700;}
+td.no{color:var(--rust);font-weight:700;}
+tbody tr:nth-child(even){background:#FCFAF6;}
+
+/* ---------- do / dont ---------- */
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0;}
+@media(max-width:720px){.dd{grid-template-columns:1fr;}}
+.ddcol{border-radius:10px;padding:20px;border:1px solid var(--line);}
+.ddcol.do{background:var(--teal-light);border-color:#BFD8D4;}
+.ddcol.dont{background:var(--rust-light);border-color:#E2C1BA;}
+.ddcol h4{display:flex;align-items:center;gap:8px;font-size:.95rem;margin-bottom:12px;}
+.ddcol.do h4{color:var(--teal);}
+.ddcol.dont h4{color:var(--rust);}
+.ddcol ul{list-style:none;}
+.ddcol li{
+  font-size:.88rem;padding-left:18px;position:relative;margin-bottom:10px;line-height:1.75;
+}
+.ddcol li::before{
+  content:"";position:absolute;left:0;top:11px;
+  width:7px;height:7px;border-radius:50%;
+}
+.ddcol.do li::before{background:var(--teal);}
+.ddcol.dont li::before{background:var(--rust);}
+
+/* ---------- quiz ---------- */
+.quiz{background:var(--navy);border-radius:12px;padding:26px 24px;color:#fff;margin:26px 0;}
+.quiz h3{color:#fff;margin:0 0 6px;}
+.quiz .qsub{font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:18px;}
+.qitem{background:rgba(255,255,255,.07);border-radius:8px;padding:16px 18px;margin-bottom:12px;}
+.qitem .qtext{font-size:.93rem;color:#fff;margin-bottom:12px;line-height:1.75;}
+.qbtns{display:flex;gap:8px;flex-wrap:wrap;}
+.qbtns button{
+  font-family:inherit;font-size:.82rem;padding:6px 18px;border-radius:6px;
+  border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;cursor:pointer;
+  transition:background .18s;
+}
+.qbtns button:hover{background:rgba(255,255,255,.16);}
+.qbtns button.picked{background:var(--amber);border-color:var(--amber);}
+.qans{
+  display:none;margin-top:12px;font-size:.87rem;line-height:1.8;
+  border-left:3px solid var(--amber);padding-left:14px;color:rgba(255,255,255,.9);
+}
+.qans.show{display:block;}
+.qans b{color:var(--amber);}
+
+/* ---------- evidence ---------- */
+.evrow{
+  background:var(--white);border:1px solid var(--line);border-radius:10px;
+  padding:18px 20px;margin-bottom:12px;
+}
+.evrow .evtop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;flex-wrap:wrap;}
+.evrow .evttl{font-weight:700;font-size:.95rem;color:var(--navy);}
+.evrow .evsrc{font-size:.76rem;color:var(--ink-mid);margin-top:10px;font-style:normal;}
+.evrow p{font-size:.9rem;margin-bottom:0;}
+.stat{
+  display:inline-block;background:var(--cream);border:1px solid var(--line);
+  border-radius:6px;padding:3px 10px;font-size:.82rem;font-weight:700;color:var(--navy);
+  margin:6px 6px 0 0;
+}
+
+/* ---------- referral flow ---------- */
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0;}
+@media(max-width:720px){.tri{grid-template-columns:1fr;}}
+.tricol{border-radius:10px;padding:18px;border-top:4px solid;background:var(--white);border:1px solid var(--line);}
+.tricol.l1{border-top:4px solid var(--teal);}
+.tricol.l2{border-top:4px solid var(--amber);}
+.tricol.l3{border-top:4px solid var(--rust);}
+.tricol h4{font-size:.92rem;margin-bottom:8px;}
+.tricol.l1 h4{color:var(--teal);}
+.tricol.l2 h4{color:var(--amber);}
+.tricol.l3 h4{color:var(--rust);}
+.tricol ul{margin-left:16px;font-size:.85rem;}
+.tricol li{margin-bottom:6px;}
+
+/* ---------- sources ---------- */
+.srclist{list-style:none;}
+.srclist li{
+  background:var(--white);border:1px solid var(--line);border-radius:8px;
+  padding:14px 16px;margin-bottom:10px;font-size:.86rem;line-height:1.75;
+}
+.srclist a{color:var(--teal);text-decoration:none;border-bottom:1px solid rgba(30,110,102,.35);word-break:break-word;}
+.srclist a:hover{color:var(--amber);border-bottom-color:var(--amber);}
+.srclist .stype{
+  display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.06em;
+  background:var(--navy);color:#fff;border-radius:4px;padding:2px 8px;margin-right:8px;
+}
+.srclist .stype.j{background:var(--teal);}
+.srclist .stype.g{background:var(--amber);}
+
+/* ---------- footer ---------- */
+footer{background:var(--navy);color:rgba(255,255,255,.72);padding:44px 0;margin-top:70px;font-size:.85rem;}
+footer .wrap{text-align:center;}
+footer .fname{color:#fff;font-weight:700;font-family:'Noto Serif JP',serif;font-size:1rem;margin-bottom:8px;}
+
+/* ---------- animation ---------- */
+.fade{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;}
+.fade.in{opacity:1;transform:none;}
+
+.divider{height:1px;background:var(--line);margin:56px 0 0;}
+svg{display:block;}
+.svgbox{
+  background:var(--white);border:1px solid var(--line);border-radius:12px;
+  padding:20px 16px;margin:18px 0 22px;
+}
+.svgbox svg{width:100%;height:auto;max-width:460px;margin:0 auto;}
+</style>
+</head>
+<body>
+
+<div id="progress-track"><div id="progress-bar"></div></div>
+<nav id="topnav">
+  <div class="navinner">
+    <span class="brand">PFA 実践リファレンス</span>
+    <button data-target="s1">なぜ必要か</button>
+    <button data-target="s2">失敗の歴史</button>
+    <button data-target="s3">設計思想</button>
+    <button data-target="s4">何でないか</button>
+    <button data-target="s5">3原則</button>
+    <button data-target="s6">8つの活動</button>
+    <button data-target="s7">安定化</button>
+    <button data-target="s14">反応と経過</button>
+    <button data-target="s8">禁止事項</button>
+    <button data-target="s9">就労移行へ</button>
+    <button data-target="s15">特性への調整</button>
+    <button data-target="s10">役割の境界</button>
+    <button data-target="s16">遠隔・集団・災害</button>
+    <button data-target="s11">支援者のケア</button>
+    <button data-target="s12">エビデンス</button>
+    <button data-target="s17">学び方</button>
+    <button data-target="s13">出典</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">STAFF REFERENCE ／ 就労移行支援スタッフ向け</div>
+    <h1>サイコロジカル・ファーストエイド</h1>
+    <div class="sub">Psychological First Aid（PFA）— 危機直後の「こころの応急手当」の仕組みと限界</div>
+    <div class="abstract">
+      PFAは、優しく寄り添うための心構えではありません。<strong style="color:#fff;">「善意の介入が人を悪化させた」という検証結果から逆算して設計された、害を出さないための手順</strong>です。この資料では、PFAが何を足し、何を意図的に削ぎ落としたのかを分解し、就労移行支援の現場でどこまで使えて、どこからが専門職の領域かを整理します。
+    </div>
+    <div class="tagrow">
+      <span class="tag">WHO版（見る・聴く・つなぐ）</span>
+      <span class="tag">NCTSN版（8つの活動内容）</span>
+      <span class="tag">エビデンスの現在地</span>
+      <span class="tag">役割の境界</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 1 ============ -->
+<section id="s1">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>01 ／ 問題の所在</div>
+    <h2>事業所にも「危機の瞬間」は訪れる</h2>
+    <p class="lede">PFAが想定するのは、日常の面談ではなく、人の対処能力が一時的に追いつかなくなる出来事の直後です。</p>
+
+    <p>まず、次のような場面を思い浮かべてください。どれも支援者が「今この瞬間、何をすればいいか」の判断を迫られる場面です。</p>
+
+    <div class="scenario">
+      <div class="who">場面 A</div>
+      <p>実習先から戻った利用者が、実習担当者から人格を否定する発言を受けたと語り、震えが止まらず言葉が途切れる。</p>
+    </div>
+    <div class="scenario">
+      <div class="who">場面 B</div>
+      <p>訓練中に家族の急死の連絡が入り、その場で立ち上がれなくなる。周囲の利用者も動揺している。</p>
+    </div>
+    <div class="scenario">
+      <div class="who">場面 C</div>
+      <p>第一志望の不採用通知を受け取った直後、「もう終わりだ」と繰り返し、呼吸が浅く速くなっている。</p>
+    </div>
+    <div class="scenario">
+      <div class="who">場面 D</div>
+      <p>事業所内で利用者同士のトラブルが起き、その場に居合わせた複数の利用者が強い不安を示している。</p>
+    </div>
+
+    <p style="margin-top:22px;">こうした場面で支援者が直面するのは、知識の不足ではなく<strong>判断の空白</strong>です。「話を聴いたほうがいいのか」「何があったか詳しく聞くべきか」「そっとしておくべきか」「専門機関に今すぐつなぐべきか」。この空白を埋めるために作られたのがPFAです。</p>
+
+    <div class="callout amber">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+        この資料の適用範囲についての注意
+      </div>
+      <p class="small" style="margin:0;">PFAは災害・事故・暴力被害などの<strong>急性の危機的出来事</strong>を想定して開発された枠組みです。就労移行支援の日常業務全般に適用することは、開発元が想定した範囲を超えた<strong>外挿</strong>にあたります。本資料は「日常面談の技法」ではなく「危機的場面での初期対応の枠組み」として扱ってください。この論点は第10節で詳しく扱います。<span class="badge c">確度 C</span></p>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section id="s2">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>02 ／ 出発点</div>
+    <h2>PFAは「良かれと思った介入」の失敗から生まれた</h2>
+    <p class="lede">なぜPFAが「聞き出さない」設計になっているのか。その理由は歴史にあります。</p>
+
+    <p>1980年代から1990年代にかけて、災害や事故の直後に広く実施されていた手法があります。<strong>心理的デブリーフィング</strong>（psychological debriefing／代表的なものにCISDと呼ばれる形式があります）です。</p>
+
+    <p>その考え方はきわめて直感的でした。<strong>「つらい体験は、早いうちに吐き出しておけば心に溜まらない」</strong>。そこで、出来事の直後に対象者を集め、何が起きたか、そのとき何を考え何を感じたかを、順を追って語ってもらう手続きが組まれました。多くの組織で、被災者や職員に対して<strong>一律・義務的に</strong>実施されました。</p>
+
+    <h3>ところが、検証すると結果は逆でした</h3>
+
+    <p>コクラン共同計画による系統的レビュー（Rose, Bisson, Churchill &amp; Wessely, 2002）は、選択基準を満たした15件の試験（うち6件はデータの制約からメタアナリシスに組み入れられず、本文中で要約）を対象に、単回・個別のデブリーフィングを検証し、次のように結論しました。</p>
+
+    <div class="callout rust">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        コクラン・レビューの結論 <span class="badge a">確度 A</span>
+      </div>
+      <p class="small">単回の個別デブリーフィングは、PTSDの発症を防がず、心理的苦痛も軽減しなかった。対照群や教育的介入と比べて<strong>同等か、それ以下</strong>であった。ある試験では、1年後にデブリーフィングを受けた群でPTSDリスクが<strong>有意に高い</strong>という結果が報告された。</p>
+      <div>
+        <span class="stat">PTSDリスク OR 2.51（95%CI 1.24–5.09）／1年後・単一試験</span>
+        <span class="stat">1〜4か月後の症状改善 SMD 0.11</span>
+      </div>
+      <p class="small" style="margin-top:12px;">レビューの著者らは<strong>「トラウマ被害者への義務的デブリーフィングは中止されるべきである」</strong>と述べ、資源はリスクの高い人の特定とその人への手厚い介入に向けるべきだと結論しました。</p>
+      <p class="evsrc">Rose SC, Bisson J, Churchill R, Wessely S. <i>Cochrane Database of Systematic Reviews</i> 2002, Issue 2. CD000560.</p>
+    </div>
+
+    <h3>なぜ害になりうるのか（メカニズムの仮説）</h3>
+    <p>この点は<strong>確定した説明ではありません</strong>が、有力な仮説として次のものが挙げられます。</p>
+    <div class="grid2">
+      <div class="card">
+        <h4>回復過程への割り込み</h4>
+        <p class="small" style="margin:0;">出来事の直後、多くの人は自然な回復経路をたどります。詳細な語りを外から促すことが、その過程に不要な介入となる可能性。</p>
+      </div>
+      <div class="card">
+        <h4>覚醒水準の再上昇</h4>
+        <p class="small" style="margin:0;">まだ興奮が高い状態で記憶を詳細に想起させることで、生理的覚醒が再び高まり、記憶が固定されやすくなる可能性。</p>
+      </div>
+      <div class="card">
+        <h4>病理化のメッセージ</h4>
+        <p class="small" style="margin:0;">「専門的処置が必要な状態だ」という含意が伝わり、本人が持つ対処資源への信頼を弱める可能性。</p>
+      </div>
+      <div class="card">
+        <h4>一律実施のミスマッチ</h4>
+        <p class="small" style="margin:0;">支援を必要としない人にも一律に実施することで、必要な人への資源が薄まり、不要な人には負荷だけが残る可能性。</p>
+      </div>
+    </div>
+
+    <div class="callout teal">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+        ここが理解の分岐点
+      </div>
+      <p class="small" style="margin:0;">PFAの各手順は、この失敗を踏まえた<strong>引き算の設計</strong>です。「体験の詳細を聞き出さない」「話すことを促さない」「一律に実施しない」というPFAの原則は、遠慮でも消極性でもなく、<strong>検証結果に基づく意図的な設計判断</strong>です。WHO版のガイドも、デブリーフィングを「推奨されない介入」として明示的に区別しています。</p>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section id="s3">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>03 ／ 設計思想</div>
+    <h2>PFAが狙う5つの状態</h2>
+    <p class="lede">手順を覚える前に、その手順が「何を作ろうとしているのか」を押さえます。</p>
+
+    <p>危機直後の介入について、Hobfollら（2007）は世界各国の専門家パネルを組織し、隣接分野の研究知見から<strong>5つの中核要素</strong>を導きました。PFAの手順は、この5つの状態を作るための具体的手段として理解できます。</p>
+
+    <div class="grid2">
+      <div class="card" style="border-left:4px solid var(--teal);">
+        <h4>1. 安全・安心の感覚 <span class="badge plain">Safety</span></h4>
+        <p class="small" style="margin:0;">物理的な安全の確保に加え、「もう脅威は続いていない」という感覚の回復。危険を想起させる情報への曝露を減らすことも含みます。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--teal);">
+        <h4>2. 落ち着き <span class="badge plain">Calming</span></h4>
+        <p class="small" style="margin:0;">過度な生理的覚醒（動悸・過呼吸・混乱）を下げること。判断力や情報処理は覚醒が高すぎると機能しないため、他のすべての前提になります。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--teal);">
+        <h4>3. 自己効力感と共同体の効力感 <span class="badge plain">Efficacy</span></h4>
+        <p class="small" style="margin:0;">「自分にもできることがある」「この集団は機能している」という感覚。支援者が全部やってあげることは、この要素を損ないます。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--teal);">
+        <h4>4. つながり <span class="badge plain">Connectedness</span></h4>
+        <p class="small" style="margin:0;">家族・友人・同僚など既存の社会的支援への接続。支援者との関係で完結させるのではなく、本人の生活圏の関係に戻すことが目標です。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--teal);grid-column:1/-1;">
+        <h4>5. 希望 <span class="badge plain">Hope</span></h4>
+        <p class="small" style="margin:0;">見通しが立つこと。根拠のない励ましではなく、<strong>「次に何が起きるか」「いつ誰が何をするか」という具体的な情報</strong>が希望の実質的な中身になります。</p>
+      </div>
+    </div>
+
+    <h3>なぜ「落ち着き」が他のすべての前提になるのか</h3>
+    <p>5要素のうち2番目の「落ち着き」は、他の4つを支える土台にあたります。その理由は、危機直後に身体で起きていることから説明できます。</p>
+
+    <div class="flowbox">
+      <div class="flowstep">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 12h4l2-6 3 12 2.5-8 1.5 4h5"/></svg>
+        </div>
+        <div class="fbody">
+          <h4>起きていること：生体の緊急モード</h4>
+          <p>生命の危険や強い衝撃に直面すると、身体は交感神経系の働きを高め、緊急対応の状態に入ります。心拍と呼吸が速くなり、筋が緊張し、注意が脅威に強く絞り込まれます。これは<strong>異常ではなく、危険から身を守るための正常な反応</strong>です。</p>
+        </div>
+      </div>
+      <div class="flowstep">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3a5 5 0 0 0-5 5v1a4 4 0 0 0 0 8h10a4 4 0 0 0 0-8V8a5 5 0 0 0-5-5Z"/><path d="M9 21h6"/></svg>
+        </div>
+        <div class="fbody">
+          <h4>その結果：言葉が届かなくなる</h4>
+          <p>注意が脅威に絞り込まれている状態では、複雑な言語情報の処理や、選択肢を比較して決める働きが低下しやすくなります。<strong>この状態の人に説明をしても入らず、選択肢を示しても選べません。</strong>「何度言っても伝わらない」という現象は、理解力の問題ではなく、この状態にあるためと考えられます。</p>
+        </div>
+      </div>
+      <div class="flowstep">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12l5 5L19 7"/></svg>
+        </div>
+        <div class="fbody">
+          <h4>だから：先に覚醒を下げ、次に情報を渡す</h4>
+          <p>PFAの活動が「安定化（3番目）」→「情報を集める（4番目）」→「問題解決（5番目）」という並びになっているのは、この順序でなければ機能しないためです。順番を飛ばして先に説明や助言を始めると、支援者は話したつもりでも、相手には何も残りません。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+        メカニズム説明の位置づけ <span class="badge b">確度 B</span>
+      </div>
+      <p class="small" style="margin:0;">上記は、急性ストレス反応に関する一般的な知見からPFAの手順を説明したものです。<strong>「この神経メカニズムが働くからPFAが有効である」という因果が検証されているわけではありません</strong>。手順の順序を理解するための説明枠組みとして扱ってください。特定の神経学的モデル（迷走神経理論など）に依拠した断定的な説明は、現時点では慎重に扱うべき領域です。</p>
+    </div>
+
+    <div class="callout amber">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+        この5要素の根拠水準について <span class="badge b">確度 B</span>
+      </div>
+      <p class="small" style="margin:0;">Hobfollら自身が論文冒頭で明記しているとおり、これは<strong>無作為化比較試験から直接導かれたものではなく、専門家パネルによる合意形成（コンセンサス）</strong>です。著者らは「災害や集団暴力の多様な状況を網羅する臨床試験の証拠が近い将来に得られる見込みは低い」と述べ、隣接領域の研究からの外挿という方法を明示的に選んでいます。「エビデンスに基づく5要素」と紹介されることがありますが、正確には<strong>「既存研究に依拠した専門家合意」</strong>です。</p>
+      <p class="evsrc">Hobfoll SE, Watson P, Bell CC, et al. <i>Psychiatry</i>. 2007;70(4):283–315.</p>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section id="s4">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>04 ／ 定義の輪郭</div>
+    <h2>PFAは何であり、何ではないか</h2>
+    <p class="lede">誤用の大半は、この線引きの曖昧さから生じます。</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th style="width:34%;">項目</th><th style="width:33%;">PFA</th><th style="width:33%;">説明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>専門資格が必要か</td><td class="no">必要ない</td><td>訓練を受けた非専門職でも実施できるよう設計されています。日本語版の手引きも、精神保健の専門家に限らず現場で働く一般の人が学べる内容とされています。</td></tr>
+          <tr><td>体験の詳細を聞くか</td><td class="no">聞かない</td><td>何が起きたかを詳しく語らせることは、PFAの手続きに含まれません。本人が自発的に話すことを止める必要はありませんが、支援者から促しません。</td></tr>
+          <tr><td>感情の表出を促すか</td><td class="no">促さない</td><td>「泣いていいんだよ」「吐き出したほうが楽になる」といった働きかけは、デブリーフィングの発想であってPFAではありません。</td></tr>
+          <tr><td>治療・カウンセリングか</td><td class="no">違う</td><td>PFAは治療ではありません。症状を治すのではなく、悪化を防ぎ、必要な支援につなぐまでの橋渡しです。</td></tr>
+          <tr><td>アセスメント（査定）か</td><td class="no">違う</td><td>診断・重症度評価を目的としません。ただし「専門的支援がすぐ必要な兆候」の把握は含まれます。</td></tr>
+          <tr><td>全員に実施するか</td><td class="no">しない</td><td>支援を望まない人に押しつけません。一律実施はデブリーフィングの失敗要因の一つでした。</td></tr>
+          <tr><td>実際的な援助を含むか</td><td class="yes">含む</td><td>飲み物、静かな場所、家族への連絡、交通手段の確保など、具体的な問題解決がPFAの中核業務です。</td></tr>
+          <tr><td>情報提供を含むか</td><td class="yes">含む</td><td>今後の見通し、利用できるサービス、よくある心身の反応についての説明を行います。</td></tr>
+          <tr><td>つなぐことを含むか</td><td class="yes">含む</td><td>既存の社会的支援と、必要なら専門的支援への接続がゴールです。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout teal">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M12 11v5M9.5 13.5h5"/></svg>
+        たとえるなら
+      </div>
+      <p class="small" style="margin:0;">身体の応急手当を考えてください。応急手当は骨折を治しません。<strong>動かさない、圧迫する、保温する、救急に引き継ぐ</strong>。やることは限定的で、大半は「悪化させないこと」です。PFAはこの構造をそのまま心理領域に置いたものです。手当の技術が地味なのは、能力が低いからではなく、その段階でできることが本当に限られているからです。</p>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section id="s5">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>05 ／ 動作の分解 ①</div>
+    <h2>WHO版：準備 → 見る → 聴く → つなぐ</h2>
+    <p class="lede">世界保健機関などが2011年に公開した版は、動作を3つの原則に凝縮しています。</p>
+
+    <p>PFAには系統が複数あります。もっとも広く使われているのが、WHO・War Trauma Foundation・World Vision Internationalが共同で作成した『Psychological first aid: Guide for field workers』（2011）です。この版は<strong>1日程度の研修で伝えられる</strong>ことを目標に設計され、行動原則を「見る・聴く・つなぐ（Look, Listen, Link）」の3つに絞っています。その前段に「準備（Prepare）」が置かれます。</p>
+
+    <div class="flowbox">
+      <div class="flowstep">
+        <div class="ico" style="background:var(--amber-light);color:var(--amber);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 3h6M12 3v4"/><path d="M5 12a7 7 0 0 1 14 0v6a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></svg>
+        </div>
+        <div class="fbody">
+          <div class="en">PREPARE</div>
+          <h4>準備 ― 現場に入る前に調べる</h4>
+          <p>接触する前段階です。省略されがちですが、ここが不十分だと後の「つなぐ」が機能しません。</p>
+          <ul>
+            <li>何が起きたのかを把握する</li>
+            <li>利用できるサービスと支援先を確認しておく</li>
+            <li>安全上の懸念（危険が継続していないか）を確認する</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flowstep">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.6"/></svg>
+        </div>
+        <div class="fbody">
+          <div class="en">LOOK</div>
+          <h4>見る ― 話しかける前に観察する</h4>
+          <p>最初にすることは声かけではなく観察です。3つの観点で状況を読みます。</p>
+          <ul>
+            <li><strong>安全の確認</strong>：その場に危険が残っていないか。自分自身の安全も含みます</li>
+            <li><strong>差し迫った基本的ニーズ</strong>：ケガ、水分、寒さ、居場所など</li>
+            <li><strong>深刻な苦痛反応</strong>：混乱、反応の消失、極度の興奮、自分や他者を傷つける危険</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flowstep">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M4 13v3a2 2 0 0 0 2 2h1v-5H6a2 2 0 0 0-2 2Z"/><path d="M20 13v3a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2Z"/></svg>
+        </div>
+        <div class="fbody">
+          <div class="en">LISTEN</div>
+          <h4>聴く ― 聞き出さずに、そばにいる</h4>
+          <p>ここでいう「聴く」は、話をさせることではありません。3つの動作から成ります。</p>
+          <ul>
+            <li><strong>近づく</strong>：自分の立場を名乗り、支援を押しつけない形で声をかける</li>
+            <li><strong>ニーズと気がかりを尋ねる</strong>：「今、何が一番困っていますか」— 出来事の詳細ではなく、現在の必要を尋ねます</li>
+            <li><strong>落ち着けるよう手助けする</strong>：沈黙を許容し、急がせない</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flowstep">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.1 0l2.6-2.6a5 5 0 0 0-7.1-7.1L11.5 4.5"/><path d="M14 11a5 5 0 0 0-7.1 0l-2.6 2.6a5 5 0 0 0 7.1 7.1l1.1-1.1"/></svg>
+        </div>
+        <div class="fbody">
+          <div class="en">LINK</div>
+          <h4>つなぐ ― 支援の終点ではなく起点にする</h4>
+          <p>PFAの実質的な成果はここに現れます。支援者との会話で終わらせません。</p>
+          <ul>
+            <li><strong>基本的ニーズを満たす</strong>：食事、水、休息、安全な場所</li>
+            <li><strong>サービスにつなぐ</strong>：医療、行政、専門相談</li>
+            <li><strong>正確な情報を提供する</strong>：分かっていること／分かっていないことを区別して伝える</li>
+            <li><strong>社会的支援に結びつける</strong>：家族、友人、既存の関係</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="small">出典：WHO, War Trauma Foundation &amp; World Vision International. <i>Psychological first aid: Guide for field workers</i>. Geneva: WHO, 2011（日本語版あり）。</p>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section id="s6">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>06 ／ 動作の分解 ②</div>
+    <h2>NCTSN版：8つの活動内容</h2>
+    <p class="lede">より詳細な系統。日本語版は兵庫県こころのケアセンターが作成しています。</p>
+
+    <p>もう一つの主要な系統が、アメリカ国立子どもトラウマティックストレス・ネットワーク（NCTSN）とアメリカ国立PTSDセンターが作成した『Psychological First Aid: Field Operations Guide（第2版）』です。日本語版は<strong>『サイコロジカル・ファーストエイド実施の手引き 第2版』</strong>として兵庫県こころのケアセンターが公開しています。</p>
+
+    <p>この版は、活動を<strong>8つの内容</strong>に分けています。重要なのは、これが<strong>固定した順序ではない</strong>ことです。1から8へ順に進むマニュアルではなく、状況に応じて必要なものを取り出して組み合わせる<strong>道具箱</strong>として設計されています。各項目をクリックすると、内容と就労移行支援の文脈での翻訳が開きます。</p>
+
+    <div id="acc-wrap">
+
+      <div class="acc">
+        <div class="acc-head">
+          <div class="idx">1</div>
+          <div class="ttl">被災者に近づき、活動を始める<span>押しつけず、しかし確実に届く形で接触する</span></div>
+          <div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="acc-body"><div class="acc-body-inner">
+          <span class="lbl">仕組み</span>
+          <p>本人からの要請を待つのではなく、支援者から接触します。ただし介入を押しつけません。この二つは矛盾しません。「声はかけるが、断る自由を明確に残す」という形をとります。名乗り、所属、何ができるかを短く伝えることで、相手が判断できる材料を渡します。</p>
+          <span class="lbl k">現場での言い方</span>
+          <div class="saywhat">「岡村です。今、少しだけそばにいてもいいですか。話さなくて大丈夫です。何か必要なものがあれば言ってください。」</div>
+          <div class="saywhat no">「何があったのか、最初から話してみてください。」— これは接触ではなく聴取であり、PFAの範囲を超えます。</div>
+        </div></div>
+      </div>
+
+      <div class="acc">
+        <div class="acc-head">
+          <div class="idx">2</div>
+          <div class="ttl">安全と安心感<span>物理的な安全の確保と、脅威の継続を断つこと</span></div>
+          <div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="acc-body"><div class="acc-body-inner">
+          <span class="lbl">仕組み</span>
+          <p>安全は心理的介入の前提条件です。危険が継続している場所では、どんな声かけも機能しません。物理的な安全確保に加え、<strong>追加の危害から守る</strong>ことが含まれます。ここには、繰り返し流れる報道映像や、他の人からの心ない発言、好奇の視線からの遮断も含まれます。</p>
+          <span class="lbl k">事業所での具体化</span>
+          <ul>
+            <li>人目のない静かな部屋に移動する</li>
+            <li>加害者や刺激源との物理的距離を確保する</li>
+            <li>他の利用者からの質問や視線が向かない環境をつくる</li>
+            <li>「今この場所は安全である」ことを言葉にして伝える</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc">
+        <div class="acc-head">
+          <div class="idx">3</div>
+          <div class="ttl">安定化<span>圧倒されている状態から、話が届く状態に戻す</span></div>
+          <div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="acc-body"><div class="acc-body-inner">
+          <span class="lbl">仕組み</span>
+          <p>情緒的に圧倒され取り乱している状態では、言語的な情報がほとんど処理されません。説明しても入らない、選択肢を示しても選べない。したがって<strong>安定化は他のすべての活動の前提</strong>になります。ただし、全員に必要なわけではありません。多くの人は安定化を必要としません。</p>
+          <span class="lbl k">対象となる状態</span>
+          <ul>
+            <li>目の焦点が合わず、呼びかけへの反応が乏しい</li>
+            <li>過呼吸、激しい震え、制御できない泣き</li>
+            <li>同じ言葉を繰り返す、話が飛ぶ</li>
+            <li>その場から離れられない／逆に走り出そうとする</li>
+          </ul>
+          <p style="margin-top:12px;">具体的な手順は第07節で扱います。</p>
+        </div></div>
+      </div>
+
+      <div class="acc">
+        <div class="acc-head">
+          <div class="idx">4</div>
+          <div class="ttl">情報を集める ― いま必要なこと、困っていること<span>体験の聴取ではなく、現在のニーズの把握</span></div>
+          <div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="acc-body"><div class="acc-body-inner">
+          <span class="lbl">仕組み</span>
+          <p>ここがPFAでもっとも誤解される項目です。「情報を集める」とありますが、集める情報は<strong>出来事の詳細ではなく、いま何に困っているか</strong>です。日本語版の見出しに「いま必要なこと、困っていること」と併記されているのは、この誤読を防ぐためです。</p>
+          <p>集める情報は、次の活動（現実的な問題解決）に直結するものに限定されます。使い道のない情報を集めることは、本人に負担をかけるだけです。</p>
+          <span class="lbl k">尋ねる内容の例</span>
+          <ul>
+            <li>今日これからどうするか（帰宅手段、迎えの有無）</li>
+            <li>連絡すべき人がいるか</li>
+            <li>薬の服用や通院の予定があるか</li>
+            <li>今もっとも気がかりなことは何か</li>
+          </ul>
+          <div class="saywhat no">「そのとき、どんな気持ちでしたか」「詳しく教えてもらえますか」— 感情や体験の掘り下げは、この項目の目的ではありません。</div>
+        </div></div>
+      </div>
+
+      <div class="acc">
+        <div class="acc-head">
+          <div class="idx">5</div>
+          <div class="ttl">現実的な問題の解決を助ける<span>心理的介入ではなく、実務が主役になる場面</span></div>
+          <div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="acc-body"><div class="acc-body-inner">
+          <span class="lbl">仕組み</span>
+          <p>PFAの中心的な業務です。危機の直後、人が最も必要としているのは共感的な言葉ではなく<strong>具体的な問題が一つ片づくこと</strong>である場合が少なくありません。これは第03節の「自己効力感」に直結します。</p>
+          <p>重要なのは、<strong>全部を代行しないこと</strong>です。本人が決められる部分は本人に決めてもらい、支援者は選択肢と手段を整えます。すべてを引き取ってしまうと、対処できているという感覚が育ちません。</p>
+          <span class="lbl k">事業所での具体化</span>
+          <ul>
+            <li>今日の訓練を切り上げる／別室で休むという選択肢を示す</li>
+            <li>帰宅方法を一緒に確認する（一人で帰れるか、付き添いが要るか）</li>
+            <li>家族や支援機関への連絡を、本人の意向を確認したうえで代行する</li>
+            <li>翌日以降の予定について、変更可能な範囲を具体的に伝える</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc">
+        <div class="acc-head">
+          <div class="idx">6</div>
+          <div class="ttl">周囲の人々との関わりを促進する<span>支援者ではなく、本人の生活圏の関係に戻す</span></div>
+          <div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="acc-body"><div class="acc-body-inner">
+          <span class="lbl">仕組み</span>
+          <p>ソーシャルサポートは、危機後の回復にかかわる要因として繰り返し指摘されてきました。PFAは支援者との関係を深めることを目標にしません。むしろ<strong>本人がもともと持っている関係につなぎ直すこと</strong>を目標にします。</p>
+          <p>ここには「孤立を防ぐ」だけでなく、<strong>望まない接触から守る</strong>ことも含まれます。心配した周囲の人が繰り返し事情を尋ねることは、本人にとって負担になりえます。</p>
+          <span class="lbl k">事業所での具体化</span>
+          <ul>
+            <li>本人が連絡を取りたい相手を確認し、手段を整える</li>
+            <li>他の利用者やスタッフに、どこまで共有してよいかを本人と決める</li>
+            <li>「詳しく聞かないでほしい」という希望があれば、それをチームに伝える役を引き受ける</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc">
+        <div class="acc-head">
+          <div class="idx">7</div>
+          <div class="ttl">対処に役立つ情報<span>反応の説明と、実行可能な対処法</span></div>
+          <div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="acc-body"><div class="acc-body-inner">
+          <span class="lbl">仕組み</span>
+          <p>危機の後に生じる反応（不眠、集中困難、繰り返し思い出す、感情の麻痺、身体症状など）について情報を伝えます。目的は<strong>「自分がおかしくなった」という解釈を防ぐこと</strong>です。</p>
+          <p>ただし伝え方には注意が必要です。「時間が経てば治ります」という断定は、実際には長引く人にとって二重の負担になります。<strong>「多くの人では時間とともに和らいでいきますが、そうでない場合もあり、そのときには相談できる先があります」</strong>という伝え方が、事実にも即しています。</p>
+          <span class="lbl k">扱う内容</span>
+          <ul>
+            <li>起こりうる反応の説明（正常な反応であるという枠づけ）</li>
+            <li>睡眠、食事、生活リズムについての実際的な助言</li>
+            <li>アルコールなどによる対処のリスク</li>
+            <li>相談できる窓口の具体的な情報</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc">
+        <div class="acc-head">
+          <div class="idx">8</div>
+          <div class="ttl">紹介と引き継ぎ<span>PFAの終点。ここが実行されないと支援が途切れる</span></div>
+          <div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="acc-body"><div class="acc-body-inner">
+          <span class="lbl">仕組み</span>
+          <p>PFAは応急手当であり、継続的支援ではありません。したがって<strong>引き継ぎが完了して初めて完結</strong>します。「話を聴いて落ち着いたので終わり」はPFAの完了ではありません。</p>
+          <p>引き継ぎには、誰に、何を、どこまで伝えるかについての本人の同意が必要です。また「つないだつもり」で終わらないよう、接続が実際に成立したかの確認まで含めます。</p>
+          <span class="lbl k">事業所での具体化</span>
+          <ul>
+            <li>サービス管理責任者・管理者への報告と記録</li>
+            <li>主治医、相談支援専門員、家族などへの連携（同意を得たうえで）</li>
+            <li>翌日以降、誰が本人に声をかけるかの担当を決める</li>
+            <li>記録には、出来事の詳細ではなく<strong>観察された事実と実施した対応</strong>を残す</li>
+          </ul>
+        </div></div>
+      </div>
+
+    </div>
+
+    <p class="small" style="margin-top:18px;">出典：Brymer M, Jacobs A, Layne C, et al. <i>Psychological First Aid: Field Operations Guide, 2nd Edition</i>. NCTSN &amp; National Center for PTSD.／日本語版：兵庫県こころのケアセンター訳『サイコロジカル・ファーストエイド実施の手引き 第2版』。</p>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section id="s7">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>07 ／ 中身の解像度を上げる</div>
+    <h2>「安定化」の具体的な手順</h2>
+    <p class="lede">8つの活動のうち、もっとも技術的で、もっとも誤用されやすい項目です。</p>
+
+    <p>安定化の目的は、感情を鎮めることではなく、<strong>注意を「いま・ここ」に戻すこと</strong>です。強い覚醒状態では注意が出来事の記憶や身体感覚に固着します。外界の中立的な情報に注意を向け直すことで、覚醒水準が下がりやすくなります。この手続きは一般に<strong>グラウンディング</strong>と呼ばれます。</p>
+
+    <div class="callout teal">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20h16M12 4v10M8 10l4 4 4-4"/></svg>
+        まず、実施する前の判断
+      </div>
+      <p class="small" style="margin:0;">安定化の手続きに入る前に、<strong>それが本当に必要か</strong>を確認します。静かに泣いている、黙っている、というだけでは介入の理由になりません。話が届かない、指示が入らない、身体反応が制御できていない、という状態が対象です。落ち着いている人に呼吸法を勧めることは、余計な介入です。</p>
+    </div>
+
+    <h3>手順の骨格</h3>
+    <div class="flowbox">
+      <div class="flowstep">
+        <div class="ico" style="background:var(--amber-light);color:var(--amber);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>
+        </div>
+        <div class="fbody">
+          <h4>ステップ1：環境を整える</h4>
+          <p>刺激を減らします。静かな場所へ移動し、人の出入りを制限します。支援者は正面ではなく斜め横に座ると、圧迫感が減ります。</p>
+        </div>
+      </div>
+      <div class="flowstep">
+        <div class="ico" style="background:var(--amber-light);color:var(--amber);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 6h12M8 12h12M8 18h12M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
+        </div>
+        <div class="fbody">
+          <h4>ステップ2：短く、具体的に話す</h4>
+          <p>長い説明は届きません。一文を短くし、ゆっくり、低めの声で話します。支援者自身の話す速度と声量が、そのまま相手の覚醒水準に影響します。</p>
+          <div class="saywhat">「大丈夫です。ここにいます。ゆっくりで大丈夫です。」</div>
+        </div>
+      </div>
+      <div class="flowstep">
+        <div class="ico" style="background:var(--amber-light);color:var(--amber);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.6"/></svg>
+        </div>
+        <div class="fbody">
+          <h4>ステップ3：外界へ注意を向け直す（五感を使う）</h4>
+          <p>感情や出来事についてではなく、<strong>いま部屋にあるもの</strong>について尋ねます。答えの正しさは問題ではありません。注意が外に向くことが目的です。</p>
+          <ul>
+            <li>「この部屋で、青いものを3つ見つけられますか」</li>
+            <li>「足の裏が床に触れている感じは分かりますか」</li>
+            <li>「聞こえてくる音を、2つ教えてください」</li>
+          </ul>
+        </div>
+      </div>
+      <div class="flowstep">
+        <div class="ico" style="background:var(--amber-light);color:var(--amber);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 14a8 8 0 0 1 16 0"/><path d="M12 14a3 3 0 0 0 3-3"/></svg>
+        </div>
+        <div class="fbody">
+          <h4>ステップ4：呼吸を整える（強制しない）</h4>
+          <p>息を吐く時間を、吸う時間よりも長くとることが基本です。ただし<strong>呼吸への注意が苦痛を強める人もいます</strong>。過去に窒息感を伴う体験がある場合などです。うまくいかない様子であれば速やかに中止し、ステップ3に戻ります。</p>
+          <div class="saywhat">「私と一緒に、ゆっくり息を吐いてみましょう。吸うときよりも、吐くときを長く。うまくできなくても問題ありません。」</div>
+        </div>
+      </div>
+      <div class="flowstep">
+        <div class="ico" style="background:var(--amber-light);color:var(--amber);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12l5 5L19 7"/></svg>
+        </div>
+        <div class="fbody">
+          <h4>ステップ5：次の一手に移る</h4>
+          <p>安定化は目的ではなく前提条件です。話が届く状態になったら、活動4（いま困っていること）や活動5（現実的な問題解決）へ移ります。安定化だけで終わらせません。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout rust">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg>
+        身体接触について
+      </div>
+      <p class="small" style="margin:0;">背中をさする、手を握るといった接触は、状況によっては有効ですが、<strong>相手にとって侵襲的になりうる行為</strong>です。特に暴力被害や性被害の文脈では、避けるのが原則です。行う場合は必ず事前に確認し（「肩に触れても大丈夫ですか」）、少しでも躊躇があれば行いません。文化的背景や性別の組み合わせにも配慮が必要です。</p>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ NEW: reactions & timeline ============ -->
+<section id="s14">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>08 ／ 何が起きるか</div>
+    <h2>危機の後に現れる反応と、その時間経過</h2>
+    <p class="lede">「正常な反応」と「受診を勧めるべき状態」を区別できないと、支援は判断を誤ります。</p>
+
+    <p>第06節の活動7「対処に役立つ情報」を実際に行うには、何が起こりうるかを支援者が知っている必要があります。危機の後に現れる反応は、おおむね次の4領域に整理できます。<strong>これらの多くは、異常な出来事に対する正常な反応</strong>とされています。</p>
+
+    <div class="grid2">
+      <div class="card" style="border-left:4px solid var(--teal);">
+        <h4>身体に現れるもの</h4>
+        <p class="small" style="margin:0;">動悸、息苦しさ、震え、発汗、頭痛、腹痛、吐き気、めまい、疲労感、寝つけない・途中で目が覚める、食欲の低下または過食、身体の緊張が抜けない。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--teal);">
+        <h4>思考に現れるもの</h4>
+        <p class="small" style="margin:0;">集中できない、物事を決められない、記憶が飛ぶ・断片的になる、出来事が繰り返し思い浮かぶ、現実感がない、自分を責める考えが止まらない、見通しが立たない感覚。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--teal);">
+        <h4>感情に現れるもの</h4>
+        <p class="small" style="margin:0;">強い不安や恐怖、いらだち・怒り、悲しみ、罪悪感、感情が動かない（麻痺したような感じ）、感情の急な変動、無力感、何も感じられないことへの戸惑い。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--teal);">
+        <h4>行動に現れるもの</h4>
+        <p class="small" style="margin:0;">出来事を思い出させる場所や人を避ける、人と関わらなくなる、落ち着かず動き回る、些細なことで驚く、飲酒や喫煙が増える、いつもできていたことをしなくなる、逆に過剰に働く。</p>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+        伝え方に注意が要る点
+      </div>
+      <p class="small" style="margin:0;">「感情が湧かない」「涙が出ない」ことを、本人が「自分は薄情だ」と解釈することがあります。<strong>感情の麻痺も、上記のとおり典型的な反応の一つ</strong>です。逆に「泣けないのは異常だから泣いたほうがいい」と促すことは、第09節の禁止事項にあたります。</p>
+    </div>
+
+    <h3>時間の経過と、診断の枠組み</h3>
+    <p>反応が「どのくらい続いているか」は、支援者が受診を勧めるかどうかを考えるうえで重要な手がかりになります。診断そのものは医師が行いますが、時間軸の枠組みを知っておくと、いつ動くべきかの判断がしやすくなります。</p>
+
+    <div class="svgbox">
+      <svg viewBox="0 0 340 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="出来事からの時間経過と診断の枠組みを示す図">
+        <g font-family="'Noto Sans JP',sans-serif">
+          <line x1="18" y1="26" x2="18" y2="340" stroke="#DFD8CA" stroke-width="3"/>
+
+          <circle cx="18" cy="26" r="7" fill="#1B2A38"/>
+          <text x="38" y="24" font-size="12" font-weight="700" fill="#1B2A38">出来事の発生</text>
+          <text x="38" y="40" font-size="10.5" fill="#4A5661">危機的な出来事への曝露</text>
+
+          <circle cx="18" cy="96" r="7" fill="#1E6E66"/>
+          <text x="38" y="94" font-size="12" font-weight="700" fill="#1E6E66">直後 〜 数日</text>
+          <text x="38" y="110" font-size="10.5" fill="#4A5661">強い動揺、混乱、不眠、過覚醒など。</text>
+          <text x="38" y="125" font-size="10.5" fill="#4A5661">多くは異常な事態への正常な反応とされる。</text>
+          <text x="38" y="140" font-size="10.5" fill="#4A5661">PFAが対象とするのは主にこの時期。</text>
+
+          <circle cx="18" cy="176" r="7" fill="#B97D33"/>
+          <text x="38" y="174" font-size="12" font-weight="700" fill="#8C5D24">3日 〜 1か月</text>
+          <text x="38" y="190" font-size="10.5" fill="#4A5661">急性ストレス症（ASD）が診断されうる期間。</text>
+          <text x="38" y="205" font-size="10.5" fill="#4A5661">侵入・否定的気分・解離・回避・覚醒の</text>
+          <text x="38" y="220" font-size="10.5" fill="#4A5661">5領域で9症状以上（DSM-5-TR）。</text>
+
+          <circle cx="18" cy="256" r="7" fill="#9C4A3C"/>
+          <text x="38" y="254" font-size="12" font-weight="700" fill="#9C4A3C">1か月 〜</text>
+          <text x="38" y="270" font-size="10.5" fill="#4A5661">症状が1か月以上持続する場合、</text>
+          <text x="38" y="285" font-size="10.5" fill="#4A5661">PTSDの診断が検討される。ASDを経ずに</text>
+          <text x="38" y="300" font-size="10.5" fill="#4A5661">数か月後に発症することもある。</text>
+
+          <circle cx="18" cy="336" r="7" fill="#4A5661"/>
+          <text x="38" y="334" font-size="12" font-weight="700" fill="#1B2A38">6か月以上の部分的持続</text>
+          <text x="38" y="350" font-size="10.5" fill="#4A5661">「他の特定される心的外傷関連症」として</text>
+          <text x="38" y="365" font-size="10.5" fill="#4A5661">DSM-5-TRで新たに定義された。</text>
+
+          <text x="0" y="392" font-size="10" fill="#9C4A3C">※ 診断は医師が行う。スタッフの役割は、判断ではなく受診につなぐこと。</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="callout teal">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+        受診を勧める目安
+      </div>
+      <p class="small">次のいずれかにあてはまる場合、主治医への相談や受診を勧めることを検討します。これは診断ではなく、<strong>「専門職の判断を仰ぐべき状態かどうか」の目安</strong>です。</p>
+      <ul class="small" style="margin:0 0 0 18px;">
+        <li>2週間以上経っても反応の強さがほとんど変わらない</li>
+        <li>通所、実習、日常生活が明らかに続けられなくなっている</li>
+        <li>睡眠が取れない状態が続いている</li>
+        <li>飲酒や薬の使い方が変わってきている</li>
+        <li>もともとの症状（既往のある精神疾患など）が明らかに悪化している</li>
+        <li>本人が「相談したい」と言っている</li>
+      </ul>
+    </div>
+
+    <h3>緊急に専門的支援へつなぐべき兆候</h3>
+    <p>次の状態は、PFAを続ける場面ではありません。<strong>PFAを中断し、組織の緊急時対応手順に切り替えます。</strong></p>
+    <div class="ddcol dont" style="margin:16px 0;">
+      <h4>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17v.01"/></svg>
+        中断して即座に連携する状態
+      </h4>
+      <ul>
+        <li>自分を傷つける、あるいは死ぬことについて口にする／その計画や手段に言及する</li>
+        <li>他者を傷つける意図を示す、または実際に危険な行動に及んでいる</li>
+        <li>現実の検討がつかなくなっている（幻覚・妄想と思われる訴え、話が了解できない）</li>
+        <li>意識がはっきりしない、時間や場所が分からない、呼びかけへの反応が著しく乏しい</li>
+        <li>身体的な緊急事態（頭部の打撲、呼吸の異常、けいれん、意識消失など）</li>
+        <li>自分や身の回りのことが全くできない状態が続いている</li>
+        <li>長時間経っても、圧倒された状態から戻らない</li>
+      </ul>
+    </div>
+
+    <div class="callout rust">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg>
+        自殺に関する言及があった場合
+      </div>
+      <p class="small" style="margin:0;">この場面での対応は、PFAの範囲を超えます。一人で判断せず、<strong>その場を離れず、その日のうちに管理者・主治医・相談支援専門員へつなぐ</strong>ことを組織の手順として定めておいてください。詳細な方法論は本資料の範囲外ですが、事業所として別途、危機対応の手順を整備しておく必要があります。</p>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section id="s8">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>09 ／ 制約</div>
+    <h2>してはいけないこと</h2>
+    <p class="lede">PFAの実質的な価値の多くは、この禁止リストにあります。</p>
+
+    <div class="dd">
+      <div class="ddcol do">
+        <h4>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12l5 5L19 7"/></svg>
+          する
+        </h4>
+        <ul>
+          <li>まず観察する。声をかける前に状況を読む</li>
+          <li>名乗り、何ができるかを短く伝える</li>
+          <li>支援を断る自由を明確に残す</li>
+          <li>沈黙を許容する。急かさない</li>
+          <li>今困っていることを尋ねる</li>
+          <li>分かっていることと分かっていないことを区別して伝える</li>
+          <li>本人が決められることは本人に決めてもらう</li>
+          <li>既存の人間関係と支援機関につなぐ</li>
+          <li>引き継ぎまで完了させる</li>
+        </ul>
+      </div>
+      <div class="ddcol dont">
+        <h4>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          しない
+        </h4>
+        <ul>
+          <li>体験の詳細を聞き出す</li>
+          <li>感情の表出を促す（「吐き出したほうが楽」と勧める）</li>
+          <li>支援を押しつける／断られたのに続ける</li>
+          <li>専門職でないのに診断的な説明をする</li>
+          <li>守れるか分からない約束をする</li>
+          <li>「頑張って」「もっとひどい人もいる」と比較する</li>
+          <li>「時間が解決する」と断定する</li>
+          <li>本人の許可なく情報を共有する</li>
+          <li>自分だけで抱え込み、報告・引き継ぎをしない</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quiz">
+      <h3>理解の確認</h3>
+      <div class="qsub">それぞれ、PFAとして適切かどうかを選んでください。</div>
+
+      <div class="qitem" data-ans="no">
+        <div class="qtext">Q1. 実習先でつらい思いをして戻った利用者に「何があったか、順番に話してみて。話したほうが楽になるから」と伝えた。</div>
+        <div class="qbtns"><button data-v="yes">適切</button><button data-v="no">不適切</button></div>
+        <div class="qans"><b>不適切。</b>体験の詳細を語らせ、感情の表出を促す働きかけは、検証の結果ふさわしくないとされたデブリーフィングの発想です。PFAでは支援者から語りを促しません。本人が自発的に話す場合はそれを妨げませんが、聞き出すことはしません。</div>
+      </div>
+
+      <div class="qitem" data-ans="yes">
+        <div class="qtext">Q2. 動揺している利用者に「今日はここまでにして帰るか、別室で少し休むか、どちらがよさそうですか」と尋ねた。</div>
+        <div class="qbtns"><button data-v="yes">適切</button><button data-v="no">不適切</button></div>
+        <div class="qans"><b>適切。</b>現実的な問題解決（活動5）にあたります。同時に、選択を本人に委ねることで自己効力感を損なわない形になっています。すべてを支援者が決めてしまうと、この要素が失われます。</div>
+      </div>
+
+      <div class="qitem" data-ans="no">
+        <div class="qtext">Q3. 職員間で共有したほうがよいと判断し、本人に確認せず朝礼で出来事の経緯を報告した。</div>
+        <div class="qbtns"><button data-v="yes">適切</button><button data-v="no">不適切</button></div>
+        <div class="qans"><b>不適切。</b>引き継ぎ（活動8）は必要ですが、誰に何をどこまで伝えるかは本人と決めます。無断の共有は、活動2「安全と安心感」で守るべき対象そのものを侵害します。安全確保のため緊急にやむを得ない場合を除き、原則として同意を得ます。</div>
+      </div>
+
+      <div class="qitem" data-ans="no">
+        <div class="qtext">Q4. 落ち着いて静かにしている利用者に対し、念のため全員に呼吸法を実施した。</div>
+        <div class="qbtns"><button data-v="yes">適切</button><button data-v="no">不適切</button></div>
+        <div class="qans"><b>不適切。</b>PFAは一律実施をしません。安定化は「情緒的に圧倒されている人」に対する手続きです。必要のない人への介入は、余計な負荷を与えるだけでなく、必要な人に向けるべき資源を減らします。一律実施はデブリーフィングの失敗要因の一つでした。</div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section id="s9">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>10 ／ 翻訳と、その限界</div>
+    <h2>就労移行支援の現場にどう置くか</h2>
+    <p class="lede">ここが本資料でもっとも慎重に扱うべき節です。</p>
+
+    <div class="callout rust">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        前提の明示 <span class="badge c">確度 C（外挿）</span>
+      </div>
+      <p class="small">PFAは<strong>災害・事故・暴力被害などの急性危機</strong>を対象に開発され、検証もその文脈（救急外来、被災地、感染症流行下の医療従事者など）で行われてきました。就労移行支援事業所の日常業務への適用について、直接的な効果検証は行われていません。</p>
+      <p class="small" style="margin:0;">したがって以下は<strong>「PFAの原則を援用した実務上の整理」</strong>であり、「PFAの効果が就労移行支援で実証されている」という主張ではありません。この区別を曖昧にしないことが、本資料の姿勢です。</p>
+    </div>
+
+    <h3>それでも援用できると考えられる理由</h3>
+    <p>第一に、PFAの禁止事項の多く（聞き出さない、押しつけない、一律実施しない、守れない約束をしない）は、<strong>危機文脈に限らず妥当性が高い実務原則</strong>です。第二に、就労移行支援の利用者には、精神障害・発達障害・トラウマ関連の困難を持つ方が含まれ、<strong>不採用通知、実習先でのハラスメント、職場での失敗体験</strong>などが、本人にとって急性の危機として体験されることがあります。第三に、支援者が「何をすべきでないか」の共通枠組みを持つこと自体に、チーム運営上の意味があります。</p>
+
+    <h3>逆に、援用してはいけない場面</h3>
+    <div class="grid2">
+      <div class="card" style="border-left:4px solid var(--rust);">
+        <h4>日常の定期面談</h4>
+        <p class="small" style="margin:0;">目標設定、自己理解、振り返りといった通常の面談は危機対応ではありません。PFAの枠組みを持ち込むと、本人を「危機の人」として扱うことになり、かえって不適切です。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--rust);">
+        <h4>継続的な心理的困難</h4>
+        <p class="small" style="margin:0;">慢性的な抑うつ、持続する不安、既存の症状の悪化は、応急手当の対象ではなく治療・専門的支援の対象です。PFAで対応しようとすると、必要な受診が遅れます。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--rust);">
+        <h4>トラウマ体験の処理</h4>
+        <p class="small" style="margin:0;">PFAはトラウマ記憶を扱う技法を一切含みません。過去の体験の処理は、訓練を受けた専門職による構造化された治療の領域です。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--rust);">
+        <h4>自傷・自殺リスクへの対応</h4>
+        <p class="small" style="margin:0;">明確な希死念慮や自傷の切迫がある場合は、PFAではなく<strong>危機介入の手続き</strong>に切り替えます。組織の対応手順に従い、速やかに専門機関・医療機関へつなぎます。</p>
+      </div>
+    </div>
+
+    <h3>場面別の対応マップ</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th style="width:26%;">場面</th><th style="width:37%;">優先する活動</th><th style="width:37%;">避けること</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>実習先でのハラスメント被害</strong></td>
+            <td>安全と安心感（加害環境から離す）／情報を集める（今後どうしたいか）／紹介と引き継ぎ（事業所としての対応判断）</td>
+            <td>その場で経緯を詳細に聴取すること。事実確認は必要ですが、それは組織的手続きであり、直後の心理的支援とは分けて設計します。</td>
+          </tr>
+          <tr>
+            <td><strong>不採用通知の直後</strong></td>
+            <td>安定化（圧倒されている場合）／現実的な問題解決（今日をどう終えるか）／対処に役立つ情報</td>
+            <td>「次がある」「いい経験になった」という早すぎる意味づけ。本人が意味づけを始める前に支援者が答えを出さないこと。</td>
+          </tr>
+          <tr>
+            <td><strong>家族の死・急病の連絡</strong></td>
+            <td>安全と安心感（静かな場所へ）／現実的な問題解決（帰宅手段、連絡先）／周囲との関わりの促進</td>
+            <td>気持ちを尋ねること。この場面で必要なのは、移動手段と連絡先の確保という実務です。</td>
+          </tr>
+          <tr>
+            <td><strong>事業所内のトラブル・目撃</strong></td>
+            <td>安全と安心感（当事者の分離）／情報を集める（周囲の利用者の状態確認）／対処に役立つ情報</td>
+            <td>全員を集めて出来事について話し合う場を設けること。これはデブリーフィングの構造そのものです。</td>
+          </tr>
+          <tr>
+            <td><strong>フラッシュバック・強い解離</strong></td>
+            <td>安定化（グラウンディング）／紹介と引き継ぎ（主治医への連携）</td>
+            <td>何を思い出したのかを尋ねること。内容には触れず、注意を現在に戻すことに専念します。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ NEW: adaptation to user characteristics ============ -->
+<section id="s15">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>11 ／ 個別性</div>
+    <h2>利用者の特性に応じた調整</h2>
+    <p class="lede">PFAの手順をそのまま当てはめると、かえって混乱を招く場合があります。</p>
+
+    <p>ここまで説明してきた手順は、暗黙のうちに「定型的な情報処理をする成人」を想定しています。就労移行支援の現場では、この前提が成り立たないことが少なくありません。国立障害者リハビリテーションセンターの災害時支援資料は、この点について明確に述べています。</p>
+
+    <div class="callout rust">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg>
+        最優先の原則
+      </div>
+      <p class="small" style="margin:0;">同資料は、発達障害のある人の特性は一人ひとり異なり、<strong>普段の支援方法と大きく異なる関わりをするとかえって混乱を招くことがある</strong>ため、本人・家族・普段の様子をよく知る人にできるだけ確認するよう求めています。<br>
+      つまり、<strong>危機のときこそ「いつもどおり」に近づけることが調整の基本</strong>です。PFAの手順を新たに持ち込むよりも、その人にとって既に機能している関わり方を維持するほうが優先されます。</p>
+      <p class="evsrc">国立障害者リハビリテーションセンター 発達障害情報・支援センター「被災地で、発達障害児・者に対応されるみなさんへ」</p>
+    </div>
+
+    <h3>自閉スペクトラム症・感覚の特性がある場合</h3>
+    <p>第07節で「静かな部屋へ移動する」と書きましたが、これは万能ではありません。慣れない部屋への移動そのものが負荷になる場合があります。<strong>「刺激を減らす」という目的は変わらないが、手段は個別化する</strong>と理解してください。</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th style="width:30%;">場面</th><th style="width:35%;">避けたい言い方・対応</th><th style="width:35%;">推奨される言い方・対応</th></tr></thead>
+        <tbody>
+          <tr><td>場所の指示</td><td class="no">「そっちへ行っては駄目」</td><td class="yes">「このいすに座ってください」（してほしい行動を具体的に）</td></tr>
+          <tr><td>予定の変更</td><td class="no">黙って強引に手を引く</td><td class="yes">「今日の午後の作業はありません。かわりに休憩室で休みます」</td></tr>
+          <tr><td>物の所在</td><td class="no">「ここにはない」とだけ言う</td><td class="yes">「飲み物は2階の給湯室にあります」</td></tr>
+          <tr><td>待ち時間</td><td class="no">何もさせずに待たせる</td><td class="yes">筆記具、本、慣れた作業など、時間を過ごせるものを渡す</td></tr>
+          <tr><td>説明の手段</td><td class="no">口頭のみで長く説明する</td><td class="yes">文字・絵・実物を使い、簡潔に、穏やかな声で伝える</td></tr>
+          <tr><td>居場所</td><td class="no">大勢のいる場所にとどめる</td><td class="yes">部屋の角、別室など個別の空間を確保する</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout amber">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.6"/></svg>
+        感覚の問題は聴覚だけではない <span class="badge b">確度 B</span>
+      </div>
+      <p class="small" style="margin:0;">国立障害者リハビリテーションセンターの調査では、発達障害のある人の感覚の問題は<strong>聴覚においてもっとも顕著である一方、自閉スペクトラム症のある人では触覚の問題も無視できない</strong>ことが示されました。これは第07節の「身体接触について」と直結します。落ち着かせようとして肩に触れる行為が、その人にとっては強い苦痛になりうるということです。個々の特性に応じた個別の対応が必要とされています。</p>
+      <p class="evsrc">国立障害者リハビリテーションセンター（<i>Frontiers in Psychiatry</i>, 2023年掲載研究の紹介）</p>
+    </div>
+
+    <h3>本人が不調に「気づいていない」ことがある</h3>
+    <p>これは見落とされやすい重要な点です。同資料は、発達障害のある人の場合、体調や怪我について<strong>我慢しているのではなく、本人自身が気づいていない</strong>場合があり、放置すると悪化しうるため、丁寧な観察と聞き取りが必要だとしています。PFAの「見る」が、ここでは特に重い意味を持ちます。</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h4>観察の視点</h4>
+        <ul class="small" style="margin:0 0 0 18px;">
+          <li>息切れや咳が頻繁でないか</li>
+          <li>やけど、切り傷、打撲がないか</li>
+          <li>濡れた服のままでいないか</li>
+          <li>耳ふさぎ、目を閉じるなど、刺激で苦しそうにしていないか</li>
+          <li>アナウンスへの反応が遅れていないか</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>尋ね方の例</h4>
+        <ul class="small" style="margin:0 0 0 18px;">
+          <li>「いつもより寒くないですか」</li>
+          <li>「歩くときにふらふらしませんか」</li>
+          <li>「頭や腕や足に怪我はありませんか」</li>
+          <li>「着替えはありますか」</li>
+          <li>「別の場所へ移りたい希望はありますか」</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>その他の特性への調整</h3>
+    <div class="grid2">
+      <div class="card" style="border-left:4px solid var(--amber);">
+        <h4>知的障害がある場合</h4>
+        <p class="small" style="margin:0;">抽象的な説明や、複数の選択肢の比較は届きにくくなります。選択肢は2つまでに絞り、一度に一つのことだけを伝えます。第07節のグラウンディング（「青いものを3つ」など）も、実物を手渡す、一緒に数えるといった形に置き換えます。<strong>「わかりましたか」という確認は「はい」という返答を引き出しやすいと指摘されることがある</strong>ため、実際の行動や本人の言葉での言い直しによって確認します。<span class="badge c">確度 C</span></p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--amber);">
+        <h4>精神障害・既往がある場合</h4>
+        <p class="small" style="margin:0;">危機的な出来事は、もともとの症状を悪化させることがあります。服薬と通院の状況を早い段階で確認し、主治医との連携を検討します。幻覚や妄想と思われる訴えがある場合、<strong>否定も肯定もせず、現実的な安全の確保に焦点を戻します</strong>。「そんなことはない」と訂正することは、この場面での役割ではありません。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--amber);">
+        <h4>聴覚・視覚に障害がある場合</h4>
+        <p class="small" style="margin:0;">危機時は情報が音声で流れがちで、届かない人が生じます。筆談、書面、明るい場所での口元の提示、あるいは口頭での丁寧な状況説明など、その人が普段使っている手段に合わせます。<strong>「伝えたつもり」になりやすい場面である</strong>ことを前提に確認します。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--amber);">
+        <h4>文化・性別・信仰への配慮</h4>
+        <p class="small" style="margin:0;">WHO版のガイドは、支援者が自分の文化的背景と信念を自覚し、偏見を脇に置くよう求めています。誰が誰に声をかけるか（同性の職員が対応すべきか）、身体的な距離の取り方、視線の合わせ方、祈りや宗教的な慣習への配慮は、状況によって適切な形が異なります。<strong>迷う場合は、本人に尋ねることが最も確実です。</strong></p>
+      </div>
+    </div>
+
+    <div class="callout teal">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+        引き継ぎでの申し送り
+      </div>
+      <p class="small" style="margin:0;">同資料は、関わって気づいた点は必ず担当者に伝え、申し送りをするよう求めています。<strong>一貫した対応が受けられること自体が、その人の安心につながる</strong>ためです。第06節の活動8「紹介と引き継ぎ」は、特性のある方への支援ではいっそう重要になります。</p>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ 10 ============ -->
+<section id="s10">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>12 ／ 役割の境界</div>
+    <h2>どこまでが事業所スタッフの仕事か</h2>
+    <p class="lede">PFAができることの範囲を明確にしておくことは、利用者を守り、同時にスタッフを守ります。</p>
+
+    <p>PFAは非専門職でも実施できるよう設計されていますが、それは<strong>「非専門職が心理的支援を担える」という意味ではありません</strong>。むしろ「応急手当の範囲を超えないための線引きを含んだ枠組み」と理解するのが正確です。</p>
+
+    <h3>判断の流れ</h3>
+    <div class="svgbox">
+      <svg viewBox="0 0 340 590" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="危機的場面における判断の流れを示すフローチャート">
+        <defs>
+          <marker id="arw" markerWidth="9" markerHeight="9" refX="4.5" refY="4" orient="auto">
+            <path d="M0 0 L8 4 L0 8 z" fill="#4A5661"/>
+          </marker>
+        </defs>
+        <g font-family="'Noto Sans JP',sans-serif">
+
+          <rect x="0" y="6" width="340" height="42" rx="7" fill="#1B2A38"/>
+          <text x="170" y="32" font-size="12.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">危機的な出来事の直後 / 強い動揺</text>
+          <line x1="170" y1="48" x2="170" y2="62" stroke="#4A5661" stroke-width="1.6" marker-end="url(#arw)"/>
+
+          <rect x="0" y="66" width="340" height="38" rx="7" fill="#FFFFFF" stroke="#DFD8CA"/>
+          <text x="14" y="90" font-size="12" font-weight="700" fill="#1B2A38">① その場の安全は確保されているか</text>
+          <rect x="34" y="108" width="306" height="34" rx="6" fill="#F6E7E4" stroke="#E2C1BA"/>
+          <text x="46" y="129" font-size="11" fill="#9C4A3C">いいえ → 安全確保が最優先。必要なら救急・警察へ</text>
+          <line x1="170" y1="142" x2="170" y2="156" stroke="#4A5661" stroke-width="1.6" marker-end="url(#arw)"/>
+
+          <rect x="0" y="160" width="340" height="38" rx="7" fill="#FFFFFF" stroke="#DFD8CA"/>
+          <text x="14" y="184" font-size="12" font-weight="700" fill="#1B2A38">② 層3の徴候はないか（自傷・他害・意識障害）</text>
+          <rect x="34" y="202" width="306" height="34" rx="6" fill="#F6E7E4" stroke="#E2C1BA"/>
+          <text x="46" y="223" font-size="11" fill="#9C4A3C">ある → PFAを中断し、緊急時対応手順へ切り替える</text>
+          <line x1="170" y1="236" x2="170" y2="250" stroke="#4A5661" stroke-width="1.6" marker-end="url(#arw)"/>
+
+          <rect x="0" y="254" width="340" height="38" rx="7" fill="#FFFFFF" stroke="#DFD8CA"/>
+          <text x="14" y="278" font-size="12" font-weight="700" fill="#1B2A38">③ 情緒的に圧倒されているか</text>
+          <rect x="34" y="296" width="306" height="34" rx="6" fill="#E4EFED" stroke="#BFD8D4"/>
+          <text x="46" y="317" font-size="11" fill="#1E6E66">はい → 安定化（環境調整・五感・呼吸）を先に行う</text>
+          <line x1="170" y1="330" x2="170" y2="344" stroke="#4A5661" stroke-width="1.6" marker-end="url(#arw)"/>
+
+          <rect x="0" y="348" width="340" height="38" rx="7" fill="#FFFFFF" stroke="#DFD8CA"/>
+          <text x="14" y="372" font-size="12" font-weight="700" fill="#1B2A38">④ いま困っていることを尋ねる</text>
+          <rect x="34" y="390" width="306" height="34" rx="6" fill="#F7EEDF" stroke="#E7D3B2"/>
+          <text x="46" y="411" font-size="11" fill="#8C5D24">→ 現実的な問題解決を助ける（決定は本人に残す）</text>
+          <line x1="170" y1="424" x2="170" y2="438" stroke="#4A5661" stroke-width="1.6" marker-end="url(#arw)"/>
+
+          <rect x="0" y="442" width="340" height="38" rx="7" fill="#FFFFFF" stroke="#DFD8CA"/>
+          <text x="14" y="466" font-size="12" font-weight="700" fill="#1B2A38">⑤ 周囲との関わり・対処に役立つ情報</text>
+          <line x1="170" y1="480" x2="170" y2="494" stroke="#4A5661" stroke-width="1.6" marker-end="url(#arw)"/>
+
+          <rect x="0" y="498" width="340" height="44" rx="7" fill="#1E6E66"/>
+          <text x="170" y="519" font-size="12.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">⑥ 紹介と引き継ぎ</text>
+          <text x="170" y="535" font-size="10.5" fill="#D6E7E4" text-anchor="middle">ここまで到達して初めてPFAは完了する（省略不可）</text>
+
+          <text x="0" y="562" font-size="10" fill="#4A5661">※ ①②はどの段階でも再確認する。状態は途中で変わりうる。</text>
+          <text x="0" y="578" font-size="10" fill="#4A5661">※ ③〜⑤は固定の順序ではなく、必要なものを選んで用いる。</text>
+        </g>
+      </svg>
+    </div>
+
+    <p>この流れを、担当できる範囲という観点で整理すると次の3層になります。</p>
+
+    <div class="tri">
+      <div class="tricol l1">
+        <h4>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="display:inline;vertical-align:-2px;margin-right:5px;"><path d="M5 12l5 5L19 7"/></svg>
+          層1：PFAの範囲内
+        </h4>
+        <p class="small" style="margin-bottom:8px;">スタッフが自律的に実施してよい範囲。</p>
+        <ul>
+          <li>静かな場所への移動</li>
+          <li>そばにいる／沈黙を保つ</li>
+          <li>飲み物、休息の提供</li>
+          <li>グラウンディングの声かけ</li>
+          <li>今日の予定の調整</li>
+          <li>帰宅手段の確保</li>
+          <li>反応についての一般的な情報提供</li>
+          <li>記録と、上長への報告</li>
+        </ul>
+      </div>
+      <div class="tricol l2">
+        <h4>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="display:inline;vertical-align:-2px;margin-right:5px;"><path d="M12 8v5M12 16.5v.01"/><circle cx="12" cy="12" r="9"/></svg>
+          層2：組織で判断
+        </h4>
+        <p class="small" style="margin-bottom:8px;">一人で決めず、その日のうちに相談。</p>
+        <ul>
+          <li>数日以上続く不眠・食欲低下</li>
+          <li>通所の継続が難しくなっている</li>
+          <li>実習・就職活動の中断の要否</li>
+          <li>家族・関係機関への連絡の要否</li>
+          <li>ハラスメント被害への組織対応</li>
+          <li>他の利用者への影響が出ている</li>
+          <li>対応したスタッフ自身が消耗している</li>
+        </ul>
+      </div>
+      <div class="tricol l3">
+        <h4>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="display:inline;vertical-align:-2px;margin-right:5px;"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17v.01"/></svg>
+          層3：即座に専門へ
+        </h4>
+        <p class="small" style="margin-bottom:8px;">PFAを続けず、手順を切り替える。</p>
+        <ul>
+          <li>自傷・自殺の意図の表明</li>
+          <li>他者への加害の危険</li>
+          <li>現実検討が保たれていない</li>
+          <li>意識・見当識の明らかな障害</li>
+          <li>身体的な緊急事態</li>
+          <li>長時間、反応が戻らない</li>
+        </ul>
+        <p class="small" style="margin:10px 0 0;"><strong>この層では、事業所の緊急時対応手順に従い、主治医・医療機関・行政の相談窓口へ直ちに連携します。</strong></p>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16v13H7l-3 3z"/></svg>
+        記録の書き方
+      </div>
+      <p class="small" style="margin:0;">記録に残すのは<strong>観察された事実と実施した対応</strong>です。「何があったか」を本人から聞き出して詳細に記録する必要はありませんし、それを目的に尋ねることは第09節の禁止事項にあたります。<br>
+      良い例：「14時20分、実習先から帰所。震えと発汗が見られ、発話が断続的。別室へ移動し、着席と飲料を提供。約10分後に発話が安定。本人の希望で14時50分に帰宅、経路は自力。母への連絡について本人が希望せず、実施せず。管理者へ報告済み。」</p>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ NEW: remote, group, disaster ============ -->
+<section id="s16">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>13 ／ 場面の拡張</div>
+    <h2>対面以外・集団・災害時の場合</h2>
+    <p class="lede">1対1の対面という前提が崩れる3つの場面を扱います。</p>
+
+    <h3>電話・オンラインでの対応</h3>
+    <p>在宅利用者への連絡中や、リモート面談の最中に危機的な状態に気づくことがあります。国際赤十字・赤新月社連盟の心理社会的支援センターは、COVID-19下で遠隔PFAの手引きを公開しており、<strong>「見る・聴く・つなぐ」の原則はそのまま用いる</strong>としています。ただし視覚情報が得られない分、いくつかの調整が必要になります。</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h4>声の使い方</h4>
+        <p class="small" style="margin:0;">視覚的な接触がない場合、同手引きは<strong>ゆっくり、はっきり、落ち着いて話し、声の調子で気遣いを伝えること</strong>が一層重要になるとしています。相づちを声に出して示し、聴いていることを音で伝えます。</p>
+      </div>
+      <div class="card">
+        <h4>最初に確認すること</h4>
+        <p class="small" style="margin:0;">「見る」が使えないため、言葉で補います。今どこにいるか、一人か、周囲は安全か、体調はどうか。対面なら一目で分かることを、意識的に尋ねる必要があります。</p>
+      </div>
+      <div class="card">
+        <h4>切る前に決めておくこと</h4>
+        <p class="small" style="margin:0;">通話を終える前に、次にいつ誰が連絡するか、途中で困ったらどこにかけるかを具体的に決めます。遠隔では「つなぐ」が最も切れやすいため、ここを曖昧にしません。</p>
+      </div>
+      <div class="card">
+        <h4>支援者側の体制</h4>
+        <p class="small" style="margin:0;">同手引きは、支援者が自分の能力と限界を認識し、対応が難しい通話は上司へつなぐこと、また対応に困難があった場合は必ずチームリーダーや上司と話し合うことを求めています。</p>
+      </div>
+    </div>
+    <p class="small">※ この手引きは成人を対象としたものとされています。</p>
+
+    <h3>複数人・集団に影響が及んでいる場合</h3>
+    <p>事業所内でのトラブル、災害、訃報など、その場にいた複数の利用者が動揺している場面です。ここで最も避けるべき対応は明確です。</p>
+
+    <div class="dd">
+      <div class="ddcol dont">
+        <h4>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          避けるべき対応
+        </h4>
+        <ul>
+          <li>全員を集め、順番に出来事や感じたことを話してもらう場を設ける</li>
+          <li>「気持ちを共有しましょう」という趣旨の集まりを開く</li>
+          <li>参加を事実上強制する（欠席しにくい形にする）</li>
+          <li>その場で意味づけや教訓をまとめようとする</li>
+        </ul>
+      </div>
+      <div class="ddcol do">
+        <h4>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12l5 5L19 7"/></svg>
+          推奨される対応
+        </h4>
+        <ul>
+          <li>事実の最小限を、正確に、短く共有する（憶測は伝えない）</li>
+          <li>今後の予定がどうなるかを具体的に伝える</li>
+          <li>相談したい人はいつ誰にどこで話せるかを示す</li>
+          <li>強く動揺している人には個別に声をかける</li>
+          <li>その場を離れたい人が離れられるようにする</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout rust">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg>
+        なぜ「全員で語る場」を避けるのか
+      </div>
+      <p class="small" style="margin:0;">第02節で見たとおり、これは心理的デブリーフィングの構造そのものです。ただし正確を期すと、第02節のコクラン・レビューが検証したのは<strong>単回・個別</strong>形式であり、著者らは<strong>集団形式のデブリーフィング、および大規模災害後のデブリーフィングについては論評できない</strong>と明記しています。したがって「集団形式が有害と証明された」とは言えません。それでも、<strong>効果が確かめられていない手法を、動揺している集団に一律に実施する積極的な理由はありません</strong>。事実の共有と予定の明示という業務上必要な連絡は、これとは別のものであり、行うべきものです。</p>
+    </div>
+
+    <h3>災害が発生した場合</h3>
+    <p>事業所は災害時、まず<strong>安否確認と避難という防災上の業務</strong>を担います。PFAはその後、あるいは並行して行うものであり、避難行動に優先するものではありません。混乱を避けるため、次の点を平時に決めておくことが推奨されます。</p>
+
+    <div class="flowbox">
+      <div class="flowstep">
+        <div class="ico" style="background:var(--amber-light);color:var(--amber);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3 4 7v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V7Z"/></svg>
+        </div>
+        <div class="fbody">
+          <h4>役割分担を先に決める</h4>
+          <p>避難誘導・安否確認を担う人と、動揺している利用者に付く人を分けておきます。同じ人が両方を担うと、どちらも中途半端になります。事業継続計画（BCP）に、この役割分担を明記しておくことが有効です。</p>
+        </div>
+      </div>
+      <div class="flowstep">
+        <div class="ico" style="background:var(--amber-light);color:var(--amber);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 5h16v12H8l-4 3z"/></svg>
+        </div>
+        <div class="fbody">
+          <h4>特性に応じた必要事項を平時に把握しておく</h4>
+          <p>第11節のとおり、落ち着ける場所、話しかけ方、必要な物品（薬、慣れた道具など）は人によって異なります。危機のさなかに聞き出すのは困難です。<strong>平時のうちに本人・家族と確認し、記録しておく</strong>ことが、災害時のPFAの実質的な準備になります。</p>
+        </div>
+      </div>
+      <div class="flowstep">
+        <div class="ico" style="background:var(--amber-light);color:var(--amber);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.1 0l2.6-2.6a5 5 0 0 0-7.1-7.1L11.5 4.5"/><path d="M14 11a5 5 0 0 0-7.1 0l-2.6 2.6a5 5 0 0 0 7.1 7.1l1.1-1.1"/></svg>
+        </div>
+        <div class="fbody">
+          <h4>つなぎ先を事前にリスト化する</h4>
+          <p>WHO版の「準備」がここに対応します。主治医、相談支援事業所、自治体の窓口、精神保健福祉センター。危機の最中に調べるのでは間に合いません。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ 11 ============ -->
+<section id="s11">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>14 ／ 支援する側</div>
+    <h2>支援者自身のケアは、付け足しではない</h2>
+    <p class="lede">WHOのガイドは、支援者自身のケアを独立した章として扱っています。</p>
+
+    <p>危機的な場面に立ち会うことは、支援者にも影響を与えます。これは職業上の弱さではなく、<strong>構造的に生じる反応</strong>です。特に事業所という継続的な関係の中では、対応した後も同じ利用者と日常的に関わり続けるため、影響が持続しやすい面があります。</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h4>対応の前</h4>
+        <p class="small" style="margin:0;">誰が対応するか、どこまでを担うか、誰に相談するかを、危機が起きる前に決めておきます。その場で役割を決めようとすると、判断が個人に集中します。</p>
+      </div>
+      <div class="card">
+        <h4>対応の最中</h4>
+        <p class="small" style="margin:0;">一人で抱えない構えを持ちます。可能なら二人体制をとり、片方が本人に、もう片方が周囲の環境調整と連絡に当たる形が機能しやすいとされます。</p>
+      </div>
+      <div class="card">
+        <h4>対応の後</h4>
+        <p class="small" style="margin:0;">上長への報告を、業務報告としてだけでなく、負荷の共有として位置づけます。「大丈夫でした」で終わらせない仕組みが必要です。</p>
+      </div>
+      <div class="card">
+        <h4>継続的に</h4>
+        <p class="small" style="margin:0;">睡眠、食事、業務量。変化に気づける関係をチーム内に持つこと。管理者側は、対応にあたった職員の状態を意識的に確認します。</p>
+      </div>
+    </div>
+
+    <div class="callout rust">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17v.01"/><circle cx="12" cy="12" r="9"/></svg>
+        ここでも同じ原則が適用されます
+      </div>
+      <p class="small" style="margin:0;">職員に対しても、<strong>出来事の詳細と感情を全員で順番に語る場を設けることは推奨されません</strong>。第02節で見たとおり、これはデブリーフィングの構造です。ただし、コクラン・レビューが検証したのは単回・個別形式であり、職員を対象とした集団実施について直接の証拠があるわけではありません。<strong>有害と証明されているのではなく、有効性が確かめられていないため積極的に勧める根拠がない</strong>、という位置づけです。<span class="badge c">確度 C</span>業務上の振り返り（何が起き、手順のどこを改善するか）と、心理的な処理を目的とした場は、区別して設計してください。前者は必要な業務であり、実施すべきものです。</p>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ 12 ============ -->
+<section id="s12">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>15 ／ 批判的検討</div>
+    <h2>PFAのエビデンスは、どこまで確かめられているか</h2>
+    <p class="lede">結論から述べます。PFAは広く推奨されていますが、その推奨は強固な効果検証に支えられているわけではありません。</p>
+
+    <p>PFAは国際的なガイドライン（IASC、スフィア基準、WHOのmhGAPなど）で推奨され、世界中で研修が行われています。しかし<strong>推奨の広さと検証の厚みは一致していません</strong>。この点を伏せて紹介することは、本資料の方針に反します。</p>
+
+    <div class="evrow">
+      <div class="evtop">
+        <span class="evttl">出発点：そもそも試験が存在しなかった</span>
+        <span class="badge a">確度 A</span>
+      </div>
+      <p class="small">WHOの委託によるBisson &amp; Lewis（2009）の系統的レビューは、文献検索の結果、PFAに関する無作為化比較試験も観察研究も、その他いかなる実証研究も見出せなかったと報告しました（後続の論文はこれを「PFAに関する最初のメタアナリシス」と呼んでいます）。PFAは、効果が確かめられて広まったのではなく、<strong>「デブリーフィングを使わないなら代わりに何をするのか」という空白を埋める形で普及</strong>したと考えられます。</p>
+      <p class="small" style="margin-top:10px;"><strong>ただし、同レビューの結論はここで終わっていません。</strong>著者らは、PFAの有効性を示す<strong>直接的な証拠は存在しないが、外傷的な出来事の後の数週間にPFAの原則に基づく支援を提供することは、間接的な証拠によって支持される</strong>と結論しています。「実証研究がなかった」という事実だけを取り出すと、この結論を見落とすことになります。</p>
+    </div>
+
+    <div class="evrow">
+      <div class="evtop">
+        <span class="evttl">2023年：12件の研究、極めて高いバイアスリスク</span>
+        <span class="badge b">確度 B</span>
+      </div>
+      <p class="small">Hermosillaら（2023）の系統的レビューは、PFAの実証研究を12件しか特定できませんでした。著者らはコクランのバイアスリスク評価ツールを用い、<strong>全体として極めて高いバイアスリスク</strong>があり、すべての領域で低リスクと評価できたのは1件のみだったと報告しています。論文の題名自体が「エビデンスを構築する必要がある」というものです。</p>
+      <p class="small" style="margin-top:10px;"><strong>結果の方向は否定的ではありません。</strong>後続の論文による要約では、この12件は<strong>いずれもPFAの肯定的な効果（主に不安、抑うつ、外傷後ストレス、苦痛について）を示していた</strong>とされています。ただし、介入内容の不統一、評価方法の不十分さ、高いバイアスリスクといった限界のため、確たる結論には至らないと整理されています。<strong>「効果がないことが示された」のではなく「確かめられていない」というのが正確な状態</strong>です。</p>
+      <p class="small" style="margin-top:10px;">なお、含まれるRCTの件数については資料間で記述が分かれています（レビュー本文は無作為化された研究を5件と分類する一方、後続論文はRCT1件と要約しています）。定義の違いによるものと考えられますが、本資料としては断定を避けます。<span class="badge c">確度 C</span></p>
+      <p class="evsrc">Hermosilla S, Forthal S, Sadowska K, et al. <i>Journal of Traumatic Stress</i>. 2023;36(1):5–16.</p>
+    </div>
+
+    <div class="evrow">
+      <div class="evtop">
+        <span class="evttl">2024年：21件の統合レビューでも結論は同様</span>
+        <span class="badge b">確度 B</span>
+      </div>
+      <p class="small">Wangら（2024）は21件（RCT 8件、単一コホート6件、質的研究7件）を統合し、<strong>8件のRCTはいずれも中〜高程度のバイアスリスク</strong>であったと評価しました。さらに、PFAには複数のモデル・プロトコル・目標・アウトカム指標が併存しており、<strong>何をもってPFAとするかについての合意が形成されていない</strong>ことが、効果検証を困難にしている中心的課題だと指摘しています。</p>
+      <p class="evsrc">Wang L, Norman I, Edleston V, Oyo C, Leamy M. <i>Trauma, Violence, &amp; Abuse</i>. 2024.</p>
+    </div>
+
+    <div class="evrow">
+      <div class="evtop">
+        <span class="evttl">もっとも厳密な試験の結果</span>
+        <span class="badge a">確度 A</span>
+      </div>
+      <p class="small">チリの救急外来で実施されたFigueroaら（2022）のRCTは、この分野でもっとも堅牢な試験と評価されています。受傷後72時間以内の成人を、PFA-ABCDE群と心理教育のみの群に無作為に割り付けました。</p>
+      <div>
+        <span class="stat">1か月後のPTSD診断率：PFA 30.3% vs 心理教育 24.0%（差なし）</span>
+        <span class="stat">調整オッズ比 1.39（95%CI 0.63–3.07, p=.408）</span>
+      </div>
+      <div>
+        <span class="stat">介入直後の苦痛軽減 d=0.30（p=.038）</span>
+        <span class="stat">1か月後のPTSD症状 d=0.42（p=.033）</span>
+        <span class="stat">6か月後：差なし（p=.986）</span>
+      </div>
+      <p class="small" style="margin-top:12px;">著者らの結論は<strong>「PFA-ABCDEはPTSDの発症を予防しないが、直後の苦痛の軽減と短期的な症状の低減はもたらす」</strong>というものでした。同じ研究グループによる3か月後アウトカムの報告（2024）では、<strong>有効性の決定的な証拠は得られなかったが、安全な介入であるように見える</strong>とされています。同報告はあわせて、<strong>実施した構成要素の数およびセッション時間とPTSD症状の低減との間に有意な用量反応関係</strong>を認めたこと、また<strong>自己報告による有害作用に有意差はなかった</strong>ことを報告しています。</p>
+      <p class="evsrc">Figueroa RA, et al. <i>European Journal of Psychotraumatology</i>. 2022;13(1):2031829. ／ Figueroa RA, et al. <i>Eur J Psychotraumatol</i>. 2024;15(1):2364443.<br>
+      <strong>利益相反の注記：</strong>これらの試験の著者の一部は、検証対象であるPFA-ABCDE研修の講師として報酬を得ていることを開示しています。結果の解釈にあたって考慮すべき点です。</p>
+    </div>
+
+    <h3>この状況をどう受け止めるか</h3>
+    <div class="grid2">
+      <div class="card" style="border-left:4px solid var(--teal);">
+        <h4>PFAを支持する側の論拠</h4>
+        <p class="small" style="margin:0;">①危機直後に「何もしない」という選択肢は現実的でなく、何らかの対応は必ず行われる。②害が示された手法（デブリーフィング）を避けつつ、害の報告が乏しい手法を用いることには合理性がある。③人道的支援として、実際的援助と情報提供それ自体に価値がある。④災害現場で厳密なRCTを組むことには構造的な困難がある。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--rust);">
+        <h4>批判的な視点</h4>
+        <p class="small" style="margin:0;">①「害がないらしい」ことは「効果がある」ことではない。②研修の普及規模と検証の厚みの乖離が大きい。③PFAの定義が統一されておらず、同じ名前で異なる介入が行われている。④研修が普及することで「対応した」という組織的満足が生まれ、より必要な資源配分（専門職の配置、継続的支援体制）が後回しになるリスクがある。</p>
+      </div>
+    </div>
+
+    <div class="callout teal">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+        実務上の落とし所
+      </div>
+      <p class="small" style="margin:0;">現時点で述べられるのは、次の水準です。<strong>「PFAは、危機直後の対応として推奨されている枠組みであり、害を出さないための原則（特に禁止事項）については比較的確かな根拠がある。一方、PFAを実施することで長期的な精神的健康が改善するという証拠は、まだ確立していない。」</strong><br>
+      研修の場で「PFAはエビデンスに基づく有効な介入です」と説明することは、正確ではありません。「害を出さない対応の共通言語であり、効果検証は途上にある」と伝えることが、事実に即しています。</p>
+    </div>
+
+    <h3>PFAの次に来るもの</h3>
+    <p>PFAは急性期（出来事の直後）の枠組みです。その後の中長期の回復支援には、別の枠組みが用意されています。代表的なものが<strong>SPR（Skills for Psychological Recovery／サイコロジカル・リカバリー・スキル）</strong>で、認知行動療法の基本要素を土台に、①情報を集め支援の優先順位を決める、②問題解決のスキルを高める、③ポジティブな活動をする、④心身の反応に対処する、⑤役に立つ考え方をする、⑥周囲の人とよい関係をつくる、という構成をとります。日本語版は同じく兵庫県こころのケアセンターが公開しています。</p>
+    <p class="small">PFAとSPRの関係は、応急手当とリハビリテーションの関係に近いものです。急性期にSPRを持ち込んでも機能せず、中長期にPFAだけを続けても回復は支えられません。<strong>就労移行支援の日常的な支援は、どちらかといえばSPRが扱う時期に近い</strong>という点は、押さえておく価値があります。</p>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ NEW: training ============ -->
+<section id="s17">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>16 ／ 学び方</div>
+    <h2>資料を読むことと、できるようになることは別</h2>
+    <p class="lede">本資料は入口であって、研修の代わりにはなりません。</p>
+
+    <p>PFAの手引きは無料で公開されており、読むこと自体は誰でもできます。しかし実際の場面で機能するかどうかは、<strong>声のかけ方、間の取り方、沈黙への耐性といった、文章では伝わりにくい部分</strong>に左右されます。ロールプレイを含む研修を受けることが望ましいとされています。</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h4>兵庫県こころのケアセンター</h4>
+        <p class="small" style="margin:0;">日本におけるPFA／SPRの中心的な拠点です。手引きの日本語版を無料公開しているほか、研修も実施しています。まず参照すべき先です。</p>
+      </div>
+      <div class="card">
+        <h4>WHO版ガイド</h4>
+        <p class="small" style="margin:0;">日本語を含む多言語版があり、1日程度で伝えられる内容として設計されています。進行役向けのマニュアルも公開されており、事業所内での勉強会を組む際の土台になります。</p>
+      </div>
+      <div class="card">
+        <h4>PFA学校版</h4>
+        <p class="small" style="margin:0;">教育機関向けに調整された版で、日本語版があります。継続的な集団の中で危機が起きる状況を扱っているため、事業所の文脈と重なる部分が少なくありません。</p>
+      </div>
+      <div class="card">
+        <h4>遠隔PFAの手引き</h4>
+        <p class="small" style="margin:0;">国際赤十字・赤新月社連盟の心理社会的支援センターが公開しています。第13節の内容の原典です（英語）。</p>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+        研修の効果についても、検証は限られています <span class="badge b">確度 B</span>
+      </div>
+      <p class="small" style="margin:0;">シエラレオネで実施されたクラスター無作為化比較試験は、PFA研修の効果を対照群と比較した検証が不足していることを背景に、1日研修による知識の獲得と保持を検討したものです。<strong>研修を受けたことが、実際の支援行動の改善や、支援を受けた側の転帰の改善につながるかどうかは、なお十分に検証されていません。</strong>本資料全体を通じた姿勢と同様、「研修を受けたから大丈夫」ではなく、組織としての手順と相談体制のほうが実質的な支えになると考えられます。</p>
+      <p class="evsrc">The Effect of Psychological First Aid Training on Knowledge and Understanding about Psychosocial Support Principles: A Cluster-Randomized Controlled Trial.</p>
+    </div>
+  </div>
+  <div class="wrap"><div class="divider"></div></div>
+</section>
+
+<!-- ============ 13 ============ -->
+<section id="s13">
+  <div class="wrap fade">
+    <div class="sec-num"><span class="bar"></span>17 ／ 情報源</div>
+    <h2>出典（クリックで参照できます）</h2>
+    <p class="lede">本資料の記述はすべて以下に基づいています。一次資料にあたることを推奨します。</p>
+
+    <h3>ガイドライン・手引き（日本語で読めるもの）</h3>
+    <ul class="srclist">
+      <li><span class="stype j">日本語</span>兵庫県こころのケアセンター「サイコロジカル・ファーストエイド実施の手引き 第2版」日本語版<br>
+        <a href="https://www.j-hits.org/document/pfa_spr/page1.html" target="_blank" rel="noopener">https://www.j-hits.org/document/pfa_spr/page1.html</a></li>
+      <li><span class="stype j">日本語</span>『サイコロジカル・ファーストエイド実施の手引き 第2版』全文PDF（NCTSN掲載）<br>
+        <a href="https://www.nctsn.org/sites/default/files/resources/pfa_ja.pdf" target="_blank" rel="noopener">https://www.nctsn.org/sites/default/files/resources/pfa_ja.pdf</a></li>
+      <li><span class="stype j">日本語</span>「サイコロジカル・ファーストエイド学校版実施の手引き」日本語版<br>
+        <a href="https://www.j-hits.org/document/pfa_spr/page2.html" target="_blank" rel="noopener">https://www.j-hits.org/document/pfa_spr/page2.html</a></li>
+      <li><span class="stype j">日本語</span>「サイコロジカル・リカバリー・スキル（SPR）実施の手引き」日本語版<br>
+        <a href="https://www.j-hits.org/document/pfa_spr/page3.html" target="_blank" rel="noopener">https://www.j-hits.org/document/pfa_spr/page3.html</a></li>
+      <li><span class="stype j">日本語</span>『サイコロジカル・リカバリー・スキル実施の手引き』全文PDF<br>
+        <a href="https://www.nctsn.org/sites/default/files/resources/special-resource/spr_complete_japanese.pdf" target="_blank" rel="noopener">https://www.nctsn.org/sites/default/files/resources/special-resource/spr_complete_japanese.pdf</a></li>
+    </ul>
+
+    <h3>国際ガイドライン</h3>
+    <ul class="srclist">
+      <li><span class="stype g">WHO</span>World Health Organization, War Trauma Foundation &amp; World Vision International. <i>Psychological first aid: Guide for field workers</i>. Geneva: WHO, 2011.（日本語を含む多言語版あり）<br>
+        <a href="https://www.who.int/publications/i/item/9789241548205" target="_blank" rel="noopener">https://www.who.int/publications/i/item/9789241548205</a></li>
+      <li><span class="stype g">WHO</span>WHO. <i>Psychological first aid: Facilitator's manual for orienting field workers</i>. 2013.<br>
+        <a href="https://www.who.int/publications/i/item/psychological-first-aid" target="_blank" rel="noopener">https://www.who.int/publications/i/item/psychological-first-aid</a></li>
+    </ul>
+
+    <h3>一次論文・系統的レビュー</h3>
+    <ul class="srclist">
+      <li><span class="stype">Cochrane</span>Rose SC, Bisson J, Churchill R, Wessely S. Psychological debriefing for preventing post traumatic stress disorder (PTSD). <i>Cochrane Database of Systematic Reviews</i>. 2002;(2):CD000560.<br>
+        <a href="https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD000560/abstract" target="_blank" rel="noopener">https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD000560/abstract</a></li>
+      <li><span class="stype">合意形成</span>Hobfoll SE, Watson P, Bell CC, et al. Five essential elements of immediate and mid-term mass trauma intervention: empirical evidence. <i>Psychiatry</i>. 2007;70(4):283–315.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/18181708/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/18181708/</a></li>
+      <li><span class="stype">系統的レビュー</span>Hermosilla S, Forthal S, Sadowska K, Magill EB, Watson P, Pike KM. We need to build the evidence: A systematic review of psychological first aid on mental health and well-being. <i>Journal of Traumatic Stress</i>. 2023;36(1):5–16.<br>
+        <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/jts.22888" target="_blank" rel="noopener">https://onlinelibrary.wiley.com/doi/full/10.1002/jts.22888</a></li>
+      <li><span class="stype">統合レビュー</span>Wang L, Norman I, Edleston V, Oyo C, Leamy M. The Effectiveness and Implementation of Psychological First Aid as a Therapeutic Intervention After Trauma: An Integrative Review. <i>Trauma, Violence, &amp; Abuse</i>. 2024.<br>
+        <a href="https://journals.sagepub.com/doi/full/10.1177/15248380231221492" target="_blank" rel="noopener">https://journals.sagepub.com/doi/full/10.1177/15248380231221492</a></li>
+      <li><span class="stype">RCT</span>Figueroa RA, Cortés PF, Marín H, et al. The ABCDE psychological first aid intervention decreases early PTSD symptoms but does not prevent it: results of a randomized-controlled trial. <i>European Journal of Psychotraumatology</i>. 2022;13(1):2031829.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/35251529/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/35251529/</a></li>
+      <li><span class="stype">RCT</span>Figueroa RA, Cortés PF, Miller C, et al. The effect of a single session of psychological first aid in the emergency department on PTSD and depressive symptoms three months post-intervention. <i>European Journal of Psychotraumatology</i>. 2024;15(1):2364443.<br>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/38949539/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/38949539/</a></li>
+      <li><span class="stype">レビューの概観</span>Koda M, et al. Effectiveness of psychological first aid in infectious disease pandemics: An overview of systematic reviews. <i>Psychiatry and Clinical Neurosciences Reports</i>. 2023.<br>
+        <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/pcn5.107" target="_blank" rel="noopener">https://onlinelibrary.wiley.com/doi/full/10.1002/pcn5.107</a></li>
+      <li><span class="stype">RCT</span>The Effect of Psychological First Aid Training on Knowledge and Understanding about Psychosocial Support Principles: A Cluster-Randomized Controlled Trial（シエラレオネ、PFA研修の効果検証）<br>
+        <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7013432/" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7013432/</a></li>
+    </ul>
+
+    <h3>特性への配慮・災害時支援</h3>
+    <ul class="srclist">
+      <li><span class="stype j">日本語</span>国立障害者リハビリテーションセンター 発達障害情報・支援センター「被災地で、発達障害児・者に対応されるみなさんへ」（第11節の主要な典拠）<br>
+        <a href="https://www.rehab.go.jp/ddis/disaster/disaster_supporter/" target="_blank" rel="noopener">https://www.rehab.go.jp/ddis/disaster/disaster_supporter/</a></li>
+      <li><span class="stype j">日本語</span>国立障害者リハビリテーションセンター「発達障害のある人の感覚の問題」（<i>Frontiers in Psychiatry</i>, 2023 掲載研究の紹介）<br>
+        <a href="https://www.rehab.go.jp/ri/departj/brainfunc/dds/paper/topic3/" target="_blank" rel="noopener">https://www.rehab.go.jp/ri/departj/brainfunc/dds/paper/topic3/</a></li>
+      <li><span class="stype j">日本語</span>内閣府（防災担当）「災害時要援護者等の特性ごとに必要な対応について」<br>
+        <a href="https://www.bousai.go.jp/taisaku/hisaisyagyousei/youengosya/h24_kentoukai/5/4.pdf" target="_blank" rel="noopener">https://www.bousai.go.jp/taisaku/hisaisyagyousei/youengosya/h24_kentoukai/5/4.pdf</a></li>
+      <li><span class="stype j">日本語</span>日本自閉症協会「自閉症の人たちのための防災・支援ハンドブック（支援者用）」<br>
+        <a href="https://www.autism.or.jp/wp-content/uploads/2022/11/siensyayou2012.pdf" target="_blank" rel="noopener">https://www.autism.or.jp/wp-content/uploads/2022/11/siensyayou2012.pdf</a></li>
+      <li><span class="stype g">IFRC</span>IFRC Reference Centre for Psychosocial Support. <i>Remote Psychological First Aid during a COVID-19 outbreak: Interim guidance</i>. March 2020.（第13節の典拠。対象は成人とされています）<br>
+        <a href="https://pscentre.org/wp-content/uploads/2020/03/IFRC-PS-Centre.-Remote-PFA-during-a-COVID-19-outbreak.-Final.-ENG.pdf" target="_blank" rel="noopener">https://pscentre.org/wp-content/uploads/2020/03/IFRC-PS-Centre.-Remote-PFA-during-a-COVID-19-outbreak.-Final.-ENG.pdf</a></li>
+    </ul>
+
+    <h3>診断基準</h3>
+    <ul class="srclist">
+      <li><span class="stype">一次資料</span>American Psychiatric Association. <i>Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition, Text Revision（DSM-5-TR）</i>. 2022.（日本語版：日本精神神経学会 日本語版用語監修、医学書院、2023）— 第08節の急性ストレス症・PTSDの期間区分および「他の特定される心的外傷関連症」の記述はこれに基づきます。書籍のためリンクはありません。</li>
+      <li><span class="stype">参照</span>MSDマニュアル プロフェッショナル版「急性ストレス症（ASD）」（DSM-5-TR基準の日本語での要約）<br>
+        <a href="https://www.msdmanuals.com/ja-jp/professional/08-%E7%B2%BE%E7%A5%9E%E7%96%BE%E6%82%A3/%E4%B8%8D%E5%AE%89%E7%97%87%E7%BE%A4%E3%81%A8%E3%82%B9%E3%83%88%E3%83%AC%E3%82%B9%E5%9B%A0%E9%96%A2%E9%80%A3%E7%97%87%E7%BE%A4/%E6%80%A5%E6%80%A7%E3%82%B9%E3%83%88%E3%83%AC%E3%82%B9%E7%97%87-asd" target="_blank" rel="noopener">MSDマニュアル プロフェッショナル版：急性ストレス症（ASD）</a></li>
+    </ul>
+
+    <div class="callout rust" style="margin-top:26px;">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+        出典を持たない記述について（作成者による注記）
+      </div>
+      <p class="small">読み手が判断できるよう、<strong>一次資料に直接の根拠を持たず、作成者が実務上の整理として構成した部分</strong>を明示します。以下は「エビデンスに基づく推奨」ではなく、上記の資料群から実務向けに導いた作業上の目安です。運用にあたっては、事業所の実情と専門職の判断で調整してください。</p>
+      <ul class="small" style="margin:0 0 0 18px;">
+        <li>第08節「受診を勧める目安」の6項目（2週間という期間の設定を含む）</li>
+        <li>第08節「危機の後に現れる反応」の4領域への分類と各項目（PFA／SPRの手引き類に散在する記述を再構成したもの）</li>
+        <li>第10節「場面別の対応マップ」の全体</li>
+        <li>第12節「3層の判断」の層分けと各層の項目</li>
+        <li>第12節「記録の書き方」の記載例</li>
+        <li>第13節「集団への対応」および「災害時」の具体的手順</li>
+        <li>第02節に挙げたデブリーフィングの害の4つのメカニズム仮説（本文中でも仮説と明記）</li>
+      </ul>
+      <p class="small" style="margin-top:10px;">また、<strong>第10節（就労移行支援への適用）全体は外挿</strong>であり、この文脈での効果検証は行われていません。本文中でも確度Cとして明示しています。</p>
+    </div>
+
+    <div class="callout amber" style="margin-top:20px;">
+      <div class="cthead">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        確度表示の凡例
+      </div>
+      <p class="small" style="margin:0;">
+        <span class="badge a">確度 A</span> 複数の系統的レビューや無作為化比較試験で一致した知見<br>
+        <span class="badge b">確度 B</span> 専門家合意、または限定的・バイアスリスクの高い研究に基づく知見<br>
+        <span class="badge c">確度 C</span> 直接の検証がなく、別文脈からの外挿にあたる記述
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fname">岡村雄一郎</div>
+    <p style="margin:0;font-size:.82rem;">本資料は内部スタッフ教育用に作成したものです。記載内容は上記一次資料に基づきますが、実際の対応は各利用者の状況と組織の対応手順に従ってください。</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // progress bar
+  var bar = document.getElementById('progress-bar');
+  function updateProgress(){
+    var h = document.documentElement;
+    var total = h.scrollHeight - h.clientHeight;
+    var pct = total > 0 ? (h.scrollTop || document.body.scrollTop) / total * 100 : 0;
+    bar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, {passive:true});
+  updateProgress();
+
+  // nav
+  var navBtns = document.querySelectorAll('#topnav button[data-target]');
+  navBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var el = document.getElementById(b.getAttribute('data-target'));
+      if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+
+  // active nav highlight
+  var sections = document.querySelectorAll('section[id]');
+  function highlight(){
+    var pos = window.scrollY + 160;
+    var current = null;
+    sections.forEach(function(s){
+      if(s.offsetTop <= pos){ current = s.id; }
+    });
+    navBtns.forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-target') === current);
+    });
+  }
+  window.addEventListener('scroll', highlight, {passive:true});
+  highlight();
+
+  // fade in
+  if('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }
+      });
+    }, {threshold:0.08, rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.fade').forEach(function(el){ obs.observe(el); });
+  } else {
+    document.querySelectorAll('.fade').forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // accordions
+  document.querySelectorAll('.acc').forEach(function(acc){
+    var head = acc.querySelector('.acc-head');
+    var body = acc.querySelector('.acc-body');
+    head.addEventListener('click', function(){
+      var isOpen = acc.classList.contains('open');
+      if(isOpen){
+        body.style.maxHeight = null;
+        acc.classList.remove('open');
+      } else {
+        acc.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 40 + 'px';
+      }
+    });
+  });
+
+  // quiz
+  document.querySelectorAll('.qitem').forEach(function(item){
+    var ans = item.getAttribute('data-ans');
+    var expl = item.querySelector('.qans');
+    item.querySelectorAll('.qbtns button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        item.querySelectorAll('.qbtns button').forEach(function(b){ b.classList.remove('picked'); });
+        btn.classList.add('picked');
+        expl.classList.add('show');
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
